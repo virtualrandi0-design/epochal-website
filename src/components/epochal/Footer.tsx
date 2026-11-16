@@ -1,57 +1,40 @@
-import { ArrowUp } from "lucide-react";
-import { brand, navLinks } from "@/content/site";
+import { brand, contact, navLinks } from "@/content/site";
+import { Logo } from "./Navbar";
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-border bg-navy">
-      <div className="mx-auto max-w-7xl px-5 pt-20 sm:px-8">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_auto]">
-          <div>
-            <p className="font-display text-3xl font-extrabold tracking-[0.12em]">
-              EPOCHAL<span className="text-gold">.</span>
-            </p>
-            <p className="mt-4 max-w-sm text-muted-foreground">
-              Innovation. Automation. Creativity. — AI automation and AI video production for brands entering a new era.
-            </p>
-            <p className="mt-6 text-sm">
-              <span className="text-muted-foreground">Founder — </span>
-              <span className="font-semibold">{brand.name}</span>
-            </p>
-          </div>
-
-          <nav aria-label="Footer">
-            <p className="eyebrow text-gold">Navigate</p>
-            <ul className="mt-5 grid grid-cols-2 gap-3">
-              {navLinks.map((l) => (
-                <li key={l.href}>
-                  <a href={l.href} className="text-muted-foreground transition-colors hover:text-foreground">
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <a
-            href="#top"
-            className="grid h-14 w-14 place-items-center self-start rounded-full bg-gradient-gold text-gold-foreground shadow-gold transition-transform hover:-translate-y-1"
-            aria-label="Back to top"
-          >
-            <ArrowUp className="h-5 w-5" />
+    <footer className="bg-ink-glow text-ink-foreground">
+      <div className="container-site grid gap-12 py-16 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-5">
+          <Logo className="text-3xl" />
+          <p className="mt-4 max-w-sm text-ink-muted">
+            {brand.headline[0]} {brand.headline[1]}
+          </p>
+        </div>
+        <nav aria-label="Footer" className="lg:col-span-3 lg:col-start-7">
+          <p className="eyebrow text-[0.65rem] text-ink-muted">Explore</p>
+          <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2">
+            {navLinks.map((l) => (
+              <li key={l.href}>
+                <a href={l.href} className="text-sm transition-colors hover:text-orange">
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="lg:col-span-3">
+          <p className="eyebrow text-[0.65rem] text-ink-muted">Contact</p>
+          <a href={`mailto:${contact.email}`} className="mt-4 block break-all text-sm transition-colors hover:text-orange">
+            {contact.email}
           </a>
         </div>
-
-        <p
-          aria-hidden="true"
-          className="text-outline mt-16 select-none text-center font-display text-[16vw] font-bold leading-[0.8] lg:text-[12rem]"
-        >
-          EPOCHAL
+      </div>
+      <div className="container-site flex flex-col gap-2 border-t border-ink-border py-6 text-xs text-ink-muted sm:flex-row sm:justify-between">
+        <p>
+          © {new Date().getFullYear()} {brand.brand}. All rights reserved.
         </p>
-
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-border py-8 text-sm text-muted-foreground sm:flex-row">
-          <p>© {new Date().getFullYear()} EPOCHAL. All rights reserved.</p>
-          <p>Designed for a new era.</p>
-        </div>
+        <p>Founded by {brand.name}.</p>
       </div>
     </footer>
   );

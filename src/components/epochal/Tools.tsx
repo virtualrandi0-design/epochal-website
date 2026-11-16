@@ -2,31 +2,39 @@ import { tools } from "@/content/site";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
+const groups = ["Automation & AI", "Video"] as const;
+
 export function Tools() {
   return (
-    <section id="tools" className="relative overflow-hidden bg-navy/40 py-24 sm:py-32">
-      <div className="bg-grid pointer-events-none absolute inset-0 opacity-60" />
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+    <section id="tools" className="grain bg-cream-deep py-24 sm:py-32">
+      <div className="container-site">
         <SectionHeading
-          index="04"
-          eyebrow="Toolkit"
-          align="center"
+          index="05"
+          eyebrow="Tools & Technologies"
           title={
             <>
-              Powered by the <span className="text-gradient-brand">best in AI.</span>
+              The platforms behind <em className="text-primary">every build.</em>
             </>
           }
-          description="The platforms behind every EPOCHAL automation and production."
         />
 
-        <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {tools.map((t, i) => (
-            <Reveal key={t.name} delay={(i % 5) * 70} className="card-premium group flex flex-col items-center p-6 text-center">
-              <span className="grid h-16 w-16 place-items-center rounded-2xl border border-border-strong bg-navy font-display text-xl font-extrabold text-foreground transition-all duration-500 group-hover:border-gold group-hover:text-gold">
-                {t.mark}
-              </span>
-              <p className="mt-5 font-display text-lg font-bold">{t.name}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{t.role}</p>
+        <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-8">
+          {groups.map((g, gi) => (
+            <Reveal key={g} delay={gi * 80} className={gi === 0 ? "lg:col-span-7 lg:col-start-1" : "lg:col-span-4 lg:col-start-9"}>
+              <p className="eyebrow flex items-center gap-2 text-muted-foreground">
+                <span className={`h-2 w-2 rounded-full ${gi === 0 ? "bg-primary" : "bg-orange"}`} />
+                {g}
+              </p>
+              <ul className={`mt-5 grid border-t border-border-strong ${gi === 0 ? "sm:grid-cols-2 sm:gap-x-8" : ""}`}>
+                {tools
+                  .filter((t) => t.group === g)
+                  .map((t) => (
+                    <li key={t.name} className="flex items-baseline justify-between gap-4 border-b border-border py-4">
+                      <span className="font-display text-2xl">{t.name}</span>
+                      <span className="text-right text-sm text-muted-foreground">{t.role}</span>
+                    </li>
+                  ))}
+              </ul>
             </Reveal>
           ))}
         </div>

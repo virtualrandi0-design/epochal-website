@@ -1,41 +1,31 @@
 /**
  * EPOCHAL — all editable website content lives in this file.
- * Replace the placeholder contact details, projects and testimonials below.
+ * Change text, services, projects and tools here; the page updates automatically.
  */
-import automation1 from "@/assets/project-automation-1.jpg";
-import automation2 from "@/assets/project-automation-2.jpg";
-import video1 from "@/assets/project-video-1.jpg";
-import video2 from "@/assets/project-video-2.jpg";
 import portrait from "@/assets/emmanuel-portrait.png.asset.json";
 
 export const brand = {
   name: "Emmanuel",
   brand: "EPOCHAL",
-  role: "Founder of Epochal",
+  role: "Founder of EPOCHAL",
   yearsExperience: 3,
   portrait: portrait.url,
+  headline: ["Building Intelligent Systems.", "Creating Powerful Visual Experiences."],
+  intro:
+    "I help businesses grow through AI automation, intelligent AI agents and professional AI video production.",
 };
 
-/** Placeholder contact details — replace with your real ones. */
 export const contact = {
-  email: "hello@epochal.com",
-  whatsappNumber: "2340000000000", // international format, digits only
-  whatsappDisplay: "+234 000 000 0000",
-  whatsappMessage: "Hi Emmanuel, I'd like to talk about a project with EPOCHAL.",
-  socials: [
-    { label: "Instagram", href: "https://instagram.com/", icon: "instagram" },
-    { label: "LinkedIn", href: "https://linkedin.com/", icon: "linkedin" },
-    { label: "X / Twitter", href: "https://x.com/", icon: "twitter" },
-    { label: "YouTube", href: "https://youtube.com/", icon: "youtube" },
-  ] as const,
+  email: "virtualradni0@gmail.com",
+  responseNote: "I usually reply within 24 hours.",
 };
 
 export const navLinks = [
   { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#portfolio" },
+  { label: "Automation", href: "#automation" },
+  { label: "Video", href: "#video" },
+  { label: "Projects", href: "#projects" },
   { label: "Tools", href: "#tools" },
-  { label: "Why Epochal", href: "#why" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -94,7 +84,9 @@ export const services: {
 export type Project = {
   title: string;
   description: string;
-  image: string;
+  category: "Automation" | "Video";
+  /** Optional cover image URL. Leave empty to show the styled placeholder panel. */
+  image?: string;
   /** Optional YouTube / Vimeo embed URL, e.g. https://www.youtube.com/embed/VIDEO_ID */
   videoEmbedUrl?: string;
   /** Optional link to a live project, case study or demo */
@@ -103,82 +95,45 @@ export type Project = {
 };
 
 /**
- * Portfolio — add, remove or replace projects here.
- * These are placeholder entries: swap in your real projects, images, videos and links.
+ * Selected projects — placeholders. Replace titles, descriptions, tags,
+ * and add an `image`, `videoEmbedUrl` or `link` when your real work is ready.
  */
-export const portfolio: { automation: Project[]; video: Project[] } = {
-  automation: [
-    {
-      title: "Automation Project Title",
-      description: "Placeholder — describe the business problem, the workflow you built and the tools you connected.",
-      image: automation1,
-      tags: ["n8n", "OpenAI", "CRM"],
-    },
-    {
-      title: "Voice Agent Project Title",
-      description: "Placeholder — describe the voice agent, what it handles for the client and how it was deployed.",
-      image: automation2,
-      tags: ["Vapi", "Retell AI"],
-    },
-  ],
-  video: [
-    {
-      title: "Product Commercial Title",
-      description: "Placeholder — describe the brand, the creative direction and the AI tools used to produce the film.",
-      image: video1,
-      tags: ["Kling", "Runway"],
-    },
-    {
-      title: "Cinematic Video Title",
-      description: "Placeholder — describe the story, the visual style and where the final video was published.",
-      image: video2,
-      tags: ["Veo", "Runway"],
-    },
-  ],
-};
-
-export const tools = [
-  { name: "n8n", role: "Workflow automation", mark: "n8" },
-  { name: "Make", role: "Visual automation", mark: "Mk" },
-  { name: "Zapier", role: "App integrations", mark: "Zp" },
-  { name: "Vapi", role: "Voice AI platform", mark: "Va" },
-  { name: "Retell AI", role: "Voice agents", mark: "Re" },
-  { name: "OpenAI", role: "Language models", mark: "Oa" },
-  { name: "Claude", role: "AI reasoning", mark: "Cl" },
-  { name: "Kling", role: "AI video generation", mark: "Kl" },
-  { name: "Runway", role: "AI video editing", mark: "Rw" },
-  { name: "Veo", role: "Cinematic AI video", mark: "Ve" },
-];
-
-export const whyChoose = [
+export const projects: Project[] = [
   {
-    title: "Experience",
-    description: "Three years of hands-on work across AI automation and AI video production.",
+    title: "Automation Project Title",
+    description: "Placeholder — describe the business problem, the workflow you built and the tools you connected.",
+    category: "Automation",
+    tags: ["n8n", "OpenAI", "CRM"],
   },
   {
-    title: "Creativity",
-    description: "Every workflow and every frame is designed with intent, taste and a clear story.",
+    title: "Voice Agent Project Title",
+    description: "Placeholder — describe the voice agent, what it handles for the client and how it was deployed.",
+    category: "Automation",
+    tags: ["Vapi", "Retell AI"],
   },
   {
-    title: "Technical Skills",
-    description: "Deep fluency in today's leading automation platforms, voice AI and generative video tools.",
+    title: "Product Commercial Title",
+    description: "Placeholder — describe the brand, the creative direction and the AI tools used to produce the film.",
+    category: "Video",
+    tags: ["Kling", "Runway"],
   },
   {
-    title: "Efficiency",
-    description: "Systems built to save time, reduce manual effort and move your business faster.",
-  },
-  {
-    title: "Quality",
-    description: "Premium standards from first draft to final delivery — polished, reliable and on-brand.",
+    title: "Cinematic Video Title",
+    description: "Placeholder — describe the story, the visual style and where the final video was published.",
+    category: "Video",
+    tags: ["Veo", "Runway"],
   },
 ];
 
-/**
- * Testimonials — placeholders only. Replace with genuine client reviews.
- * Set `placeholder: false` once a real review is added.
- */
-export const testimonials = [
-  { quote: "Your client's review will appear here.", name: "Client Name", role: "Role, Company", placeholder: true },
-  { quote: "Your client's review will appear here.", name: "Client Name", role: "Role, Company", placeholder: true },
-  { quote: "Your client's review will appear here.", name: "Client Name", role: "Role, Company", placeholder: true },
+export const tools: { name: string; role: string; group: "Automation & AI" | "Video" }[] = [
+  { name: "n8n", role: "Workflow automation", group: "Automation & AI" },
+  { name: "Make", role: "Visual automation", group: "Automation & AI" },
+  { name: "Zapier", role: "App integrations", group: "Automation & AI" },
+  { name: "Vapi", role: "Voice AI platform", group: "Automation & AI" },
+  { name: "Retell AI", role: "Voice agents", group: "Automation & AI" },
+  { name: "OpenAI", role: "Language models", group: "Automation & AI" },
+  { name: "Claude", role: "AI reasoning", group: "Automation & AI" },
+  { name: "Kling", role: "AI video generation", group: "Video" },
+  { name: "Runway", role: "AI video editing", group: "Video" },
+  { name: "Veo", role: "Cinematic AI video", group: "Video" },
 ];

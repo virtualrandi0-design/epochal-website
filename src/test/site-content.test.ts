@@ -1,17 +1,23 @@
 import { describe, expect, it } from "vitest";
-import { brand, services, testimonials, tools, portfolio } from "@/content/site";
+import { brand, contact, services, tools, projects } from "@/content/site";
 
 describe("EPOCHAL site content", () => {
   it("states 3 years of experience", () => {
     expect(brand.yearsExperience).toBe(3);
   });
 
-  it("lists the seven requested services", () => {
-    expect(services.map((s) => s.title)).toEqual([
+  it("uses the requested contact email", () => {
+    expect(contact.email).toBe("virtualradni0@gmail.com");
+  });
+
+  it("splits services into automation and video", () => {
+    expect(services.filter((s) => s.category === "Automation").map((s) => s.title)).toEqual([
       "AI Voice Agents",
       "Business Automation",
       "Social Media Automation",
       "AI Agents",
+    ]);
+    expect(services.filter((s) => s.category === "Video").map((s) => s.title)).toEqual([
       "Cinematic AI Videos",
       "AI Product Commercials",
       "AI UGC Videos",
@@ -24,12 +30,8 @@ describe("EPOCHAL site content", () => {
     ]);
   });
 
-  it("ships no invented testimonials", () => {
-    expect(testimonials.every((t) => t.placeholder)).toBe(true);
-  });
-
-  it("has both portfolio categories", () => {
-    expect(portfolio.automation.length).toBeGreaterThan(0);
-    expect(portfolio.video.length).toBeGreaterThan(0);
+  it("has project placeholders for both automation and video", () => {
+    expect(projects.some((p) => p.category === "Automation")).toBe(true);
+    expect(projects.some((p) => p.category === "Video")).toBe(true);
   });
 });

@@ -1,4 +1,4 @@
-import { ArrowUpRight, Bot, Clapperboard, PhoneCall, Share2, ShoppingBag, Smartphone, Workflow, type LucideIcon } from "lucide-react";
+import { Bot, Clapperboard, PhoneCall, Share2, ShoppingBag, Smartphone, Workflow, type LucideIcon } from "lucide-react";
 import { services, type ServiceIcon } from "@/content/site";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
@@ -14,64 +14,83 @@ const icons: Record<ServiceIcon, LucideIcon> = {
   ugc: Smartphone,
 };
 
-export function Services() {
+/** AI Automation services on paper. */
+export function AutomationServices() {
+  const items = services.filter((s) => s.category === "Automation");
   return (
-    <section id="services" className="relative overflow-hidden bg-navy/40 py-24 sm:py-32">
-      <div className="pointer-events-none absolute -right-40 top-20 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+    <section id="automation" className="grain bg-cream-deep py-24 sm:py-32">
+      <div className="container-site">
         <SectionHeading
           index="02"
-          eyebrow="Services"
+          eyebrow="AI Automation Services"
           title={
             <>
-              Two crafts. <span className="text-gradient-brand">One vision.</span>
+              Systems that run your business <em className="text-primary">while you grow it.</em>
             </>
           }
-          description="From automated systems that run your business to visuals that capture attention — everything you need to lead in the AI era."
+          description="Automations and AI agents that answer, organise, follow up and publish — so your team can focus on the work that matters."
         />
-
-        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s, i) => {
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map((s, i) => {
             const Icon = icons[s.icon];
-            const isVideo = s.category === "Video";
             return (
-              <Reveal
-                key={s.title}
-                delay={(i % 3) * 90}
-                className={cn("card-premium group flex flex-col p-7", i === 0 && "lg:row-span-1")}
-              >
-                <div className="flex items-start justify-between">
-                  <span
-                    className={cn(
-                      "grid h-14 w-14 place-items-center rounded-2xl",
-                      isVideo ? "bg-gradient-gold text-gold-foreground shadow-gold" : "bg-gradient-electric shadow-glow",
-                    )}
-                  >
-                    <Icon className="h-6 w-6" />
+              <Reveal key={s.title} delay={i * 70} className="card-paper flex flex-col p-7">
+                <div className="flex items-center justify-between">
+                  <span className="grid h-12 w-12 place-items-center rounded-full bg-primary-soft text-primary">
+                    <Icon className="h-5 w-5" />
                   </span>
-                  <span className={cn("eyebrow text-[0.62rem]", isVideo ? "text-gold" : "text-primary-glow")}>
-                    {s.category}
-                  </span>
+                  <span className="eyebrow text-muted-foreground">0{i + 1}</span>
                 </div>
-                <h3 className="mt-8 text-2xl font-bold">{s.title}</h3>
-                <p className="mt-3 flex-1 leading-relaxed text-muted-foreground">{s.description}</p>
-                <a
-                  href="#contact"
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-foreground/80 transition-colors hover:text-gold"
-                >
-                  Start a project
-                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </a>
+                <h3 className="mt-10 text-2xl leading-tight">{s.title}</h3>
+                <p className="mt-3 leading-relaxed text-muted-foreground">{s.description}</p>
               </Reveal>
             );
           })}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-          <Reveal delay={180} className="flex flex-col justify-between rounded-[calc(var(--radius)+8px)] bg-gradient-electric p-7 shadow-glow">
-            <p className="font-display text-3xl font-extrabold leading-tight">Need something custom?</p>
-            <a href="#contact" className="mt-8 inline-flex items-center gap-2 font-bold text-gold underline-offset-4 hover:underline">
-              Let's design it together <ArrowUpRight className="h-5 w-5" />
-            </a>
-          </Reveal>
+/** AI Video Production services on ink. */
+export function VideoServices() {
+  const items = services.filter((s) => s.category === "Video");
+  return (
+    <section id="video" className="bg-ink-glow py-24 text-ink-foreground sm:py-32">
+      <div className="container-site">
+        <SectionHeading
+          tone="dark"
+          index="03"
+          eyebrow="AI Video Production"
+          title={
+            <>
+              Visuals that make people <em className="text-orange">stop scrolling.</em>
+            </>
+          }
+          description="Professional AI video production for brands that want to look premium — from cinematic stories to product films and creator-style ads."
+        />
+        <div className="mt-14 grid gap-5 md:grid-cols-3">
+          {items.map((s, i) => {
+            const Icon = icons[s.icon];
+            return (
+              <Reveal
+                key={s.title}
+                delay={i * 70}
+                className={cn(
+                  "group flex flex-col rounded-[var(--radius-xl)] border border-ink-border bg-ink-foreground/[0.03] p-8 transition-colors hover:border-orange/50",
+                )}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="grid h-12 w-12 place-items-center rounded-full bg-orange text-orange-foreground">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <span className="eyebrow text-ink-muted">0{i + 1}</span>
+                </div>
+                <h3 className="mt-12 text-3xl leading-tight">{s.title}</h3>
+                <p className="mt-3 leading-relaxed text-ink-muted">{s.description}</p>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>

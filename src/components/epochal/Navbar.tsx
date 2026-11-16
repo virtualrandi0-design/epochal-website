@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <a href="#top" className={cn("font-display text-xl font-extrabold tracking-[0.12em]", className)}>
-      EPOCHAL<span className="text-gold">.</span>
+    <a href="#top" className={cn("font-display text-2xl font-semibold tracking-[0.06em]", className)}>
+      EPOCHAL<span className="text-orange">.</span>
     </a>
   );
 }
@@ -17,7 +17,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -30,20 +30,17 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-        scrolled || open ? "border-b border-border bg-navy-deep/80 backdrop-blur-xl" : "bg-transparent",
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300",
+        scrolled || open ? "border-border bg-cream/85 backdrop-blur-md" : "border-transparent bg-transparent",
       )}
     >
-      <nav className="mx-auto flex h-18 max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
+      <nav className="container-site flex h-18 items-center justify-between">
         <Logo />
 
-        <ul className="hidden items-center gap-8 lg:flex">
+        <ul className="hidden items-center gap-9 lg:flex">
           {navLinks.map((l) => (
             <li key={l.href}>
-              <a
-                href={l.href}
-                className="relative text-sm font-medium text-muted-foreground transition-colors after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all hover:text-foreground hover:after:w-full"
-              >
+              <a href={l.href} className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
                 {l.label}
               </a>
             </li>
@@ -51,8 +48,8 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-3">
-          <Button asChild variant="gold" className="hidden rounded-full px-5 sm:inline-flex">
-            <a href="#contact">Let's Talk</a>
+          <Button asChild variant="ink" className="hidden h-10 rounded-full px-5 text-xs sm:inline-flex">
+            <a href="#contact">Contact Me</a>
           </Button>
           <button
             type="button"
@@ -67,26 +64,28 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="h-[calc(100dvh-4.5rem)] border-t border-border bg-navy-deep px-6 pb-10 pt-6 lg:hidden">
-          <ul className="flex flex-col">
+        <div className="h-[calc(100dvh-4.5rem)] border-t border-border bg-cream lg:hidden">
+          <ul className="container-site flex flex-col pt-4">
             {navLinks.map((l, i) => (
-              <li key={l.href} className="intro-fade" style={{ animationDelay: `${i * 0.05}s` }}>
+              <li key={l.href}>
                 <a
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between border-b border-border py-5 font-display text-3xl font-bold"
+                  className="flex items-baseline justify-between border-b border-border py-5 font-display text-3xl"
                 >
                   {l.label}
-                  <span className="eyebrow text-gold">0{i + 1}</span>
+                  <span className="eyebrow text-orange">0{i + 1}</span>
                 </a>
               </li>
             ))}
+            <li className="pt-8">
+              <Button asChild variant="ink" size="xl" className="w-full">
+                <a href="#contact" onClick={() => setOpen(false)}>
+                  Contact Me
+                </a>
+              </Button>
+            </li>
           </ul>
-          <Button asChild variant="gold" size="xl" className="mt-8 w-full">
-            <a href="#contact" onClick={() => setOpen(false)}>
-              Let's Talk
-            </a>
-          </Button>
         </div>
       )}
     </header>

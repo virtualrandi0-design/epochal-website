@@ -2,28 +2,41 @@ import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
 import { cn } from "@/lib/utils";
 
+/** Section header on the 12-column grid: label in the first 4 columns, title in the last 8. */
 export function SectionHeading({
   index,
   eyebrow,
   title,
   description,
-  align = "left",
+  tone = "light",
 }: {
   index: string;
   eyebrow: string;
   title: ReactNode;
   description?: string;
-  align?: "left" | "center";
+  tone?: "light" | "dark";
 }) {
+  const dark = tone === "dark";
   return (
-    <Reveal className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
-      <div className={cn("flex items-center gap-3 text-gold", align === "center" && "justify-center")}>
-        <span className="eyebrow">{index}</span>
-        <span className="h-px w-10 bg-gold/60" />
-        <span className="eyebrow text-muted-foreground">{eyebrow}</span>
+    <Reveal
+      className={cn(
+        "grid gap-6 border-t pt-6 lg:grid-cols-12 lg:gap-8",
+        dark ? "border-ink-border" : "border-border-strong",
+      )}
+    >
+      <div className="eyebrow flex items-center gap-3 lg:col-span-4">
+        <span className="text-orange">{index}</span>
+        <span className={cn("h-px w-8", dark ? "bg-ink-border" : "bg-border-strong")} />
+        <span className={dark ? "text-ink-muted" : "text-muted-foreground"}>{eyebrow}</span>
       </div>
-      <h2 className="mt-5 text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-[3.6rem]">{title}</h2>
-      {description && <p className="mt-5 text-lg leading-relaxed text-muted-foreground">{description}</p>}
+      <div className="lg:col-span-8">
+        <h2 className="text-4xl leading-[1.05] sm:text-5xl lg:text-[3.5rem]">{title}</h2>
+        {description && (
+          <p className={cn("mt-5 max-w-2xl text-lg leading-relaxed", dark ? "text-ink-muted" : "text-muted-foreground")}>
+            {description}
+          </p>
+        )}
+      </div>
     </Reveal>
   );
 }

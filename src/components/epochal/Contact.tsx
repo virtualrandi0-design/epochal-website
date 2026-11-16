@@ -1,21 +1,13 @@
 import { useState, type FormEvent } from "react";
-import { Instagram, Linkedin, Mail, MessageCircle, Send, Twitter, Youtube, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, Mail, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { contact, services } from "@/content/site";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
-const socialIcons: Record<(typeof contact.socials)[number]["icon"], LucideIcon> = {
-  instagram: Instagram,
-  linkedin: Linkedin,
-  twitter: Twitter,
-  youtube: Youtube,
-};
-
-export const whatsappHref = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(contact.whatsappMessage)}`;
-
 const fieldClass =
-  "w-full rounded-xl border border-input bg-navy-deep/60 px-4 py-3.5 text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors focus:border-primary-glow focus:ring-2 focus:ring-ring/30";
+  "w-full rounded-lg border border-input bg-background px-4 py-3.5 text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20";
+const labelClass = "eyebrow mb-2 block text-[0.65rem] text-muted-foreground";
 
 export function Contact() {
   const [error, setError] = useState("");
@@ -46,109 +38,88 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="relative overflow-hidden py-24 sm:py-32">
-      <div className="pointer-events-none absolute right-0 top-0 h-[30rem] w-[30rem] rounded-full bg-primary/20 blur-3xl" />
-      <div className="relative mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
-        <div>
-          <SectionHeading
-            index="07"
-            eyebrow="Contact"
-            title={
-              <>
-                Let's build your <span className="text-gradient-gold">new era.</span>
-              </>
-            }
-            description="Tell me about your business, your goals or your next big idea. I'll get back to you as soon as possible."
-          />
+    <section id="contact" className="py-24 sm:py-32">
+      <div className="container-site">
+        <SectionHeading
+          index="06"
+          eyebrow="Contact"
+          title={
+            <>
+              Let's build something <em className="text-primary">remarkable.</em>
+            </>
+          }
+          description="Tell me about your business, your goals or your next idea. I'll get back to you personally."
+        />
 
-          <Reveal delay={100} className="mt-10 space-y-4">
-            <a href={`mailto:${contact.email}`} className="card-premium flex items-center gap-5 p-5">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-electric">
-                <Mail className="h-5 w-5" />
-              </span>
-              <span className="min-w-0">
-                <span className="eyebrow block text-[0.6rem] text-muted-foreground">Email</span>
-                <span className="block truncate font-semibold">{contact.email}</span>
-              </span>
+        <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-4">
+            <p className={labelClass}>Email me directly</p>
+            <a
+              href={`mailto:${contact.email}`}
+              className="group inline-flex items-center gap-3 break-all font-display text-2xl text-foreground underline decoration-orange decoration-2 underline-offset-[6px] transition-colors hover:text-primary sm:text-[1.7rem]"
+            >
+              {contact.email}
+              <ArrowUpRight className="h-5 w-5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
-            <a href={whatsappHref} target="_blank" rel="noreferrer" className="card-premium flex items-center gap-5 p-5">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-gold text-gold-foreground">
-                <MessageCircle className="h-5 w-5" />
-              </span>
-              <span className="min-w-0">
-                <span className="eyebrow block text-[0.6rem] text-muted-foreground">WhatsApp</span>
-                <span className="block truncate font-semibold">{contact.whatsappDisplay}</span>
-              </span>
-            </a>
+            <p className="mt-4 text-muted-foreground">{contact.responseNote}</p>
+
+            <div className="mt-10 rounded-[var(--radius-xl)] bg-ink-glow p-7 text-ink-foreground">
+              <Mail className="h-5 w-5 text-orange" />
+              <p className="mt-4 font-display text-xl leading-snug">
+                Automation, AI agents or a video project — every enquiry is answered by Emmanuel himself.
+              </p>
+            </div>
           </Reveal>
 
-          <Reveal delay={200} className="mt-8 flex flex-wrap gap-3">
-            {contact.socials.map((s) => {
-              const Icon = socialIcons[s.icon];
-              return (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={s.label}
-                  className="grid h-12 w-12 place-items-center rounded-full border border-border-strong text-muted-foreground transition-all hover:-translate-y-1 hover:border-gold hover:text-gold"
-                >
-                  <Icon className="h-5 w-5" />
-                </a>
-              );
-            })}
+          <Reveal delay={100} className="rounded-[var(--radius-2xl)] border border-border bg-card p-6 shadow-soft sm:p-10 lg:col-span-8">
+            <form onSubmit={onSubmit} noValidate className="space-y-5">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="block">
+                  <span className={labelClass}>Your name</span>
+                  <input name="name" autoComplete="name" placeholder="Jane Doe" className={fieldClass} />
+                </label>
+                <label className="block">
+                  <span className={labelClass}>Email address</span>
+                  <input name="email" type="email" autoComplete="email" placeholder="jane@company.com" className={fieldClass} />
+                </label>
+              </div>
+              <label className="block">
+                <span className={labelClass}>What do you need?</span>
+                <select name="service" defaultValue="" className={fieldClass}>
+                  <option value="">Choose a service</option>
+                  {services.map((s) => (
+                    <option key={s.title} value={s.title}>
+                      {s.title}
+                    </option>
+                  ))}
+                  <option value="Something else">Something else</option>
+                </select>
+              </label>
+              <label className="block">
+                <span className={labelClass}>Project details</span>
+                <textarea name="message" rows={5} placeholder="Tell me about your project…" className={`${fieldClass} resize-none`} />
+              </label>
+
+              {error && (
+                <p className="text-sm font-medium text-destructive" role="alert">
+                  {error}
+                </p>
+              )}
+              {sent && !error && (
+                <p className="text-sm font-medium text-primary" role="status">
+                  Your email app should now open with your message ready to send.
+                </p>
+              )}
+
+              <div className="flex flex-col items-start gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-muted-foreground">Opens your email app with the message filled in.</p>
+                <Button type="submit" variant="brand" size="xl" className="w-full sm:w-auto">
+                  Send Message <Send />
+                </Button>
+              </div>
+            </form>
           </Reveal>
         </div>
-
-        <Reveal delay={150} className="glass rounded-[calc(var(--radius)+12px)] p-6 shadow-card sm:p-10">
-          <form onSubmit={onSubmit} noValidate className="space-y-5">
-            <div className="grid gap-5 sm:grid-cols-2">
-              <label className="block">
-                <span className="mb-2 block text-sm font-medium">Your name</span>
-                <input name="name" autoComplete="name" placeholder="Jane Doe" className={fieldClass} />
-              </label>
-              <label className="block">
-                <span className="mb-2 block text-sm font-medium">Email address</span>
-                <input name="email" type="email" autoComplete="email" placeholder="jane@company.com" className={fieldClass} />
-              </label>
-            </div>
-            <label className="block">
-              <span className="mb-2 block text-sm font-medium">What do you need?</span>
-              <select name="service" defaultValue="" className={fieldClass}>
-                <option value="">Choose a service</option>
-                {services.map((s) => (
-                  <option key={s.title} value={s.title}>
-                    {s.title}
-                  </option>
-                ))}
-                <option value="Something else">Something else</option>
-              </select>
-            </label>
-            <label className="block">
-              <span className="mb-2 block text-sm font-medium">Project details</span>
-              <textarea name="message" rows={5} placeholder="Tell me about your project…" className={`${fieldClass} resize-none`} />
-            </label>
-
-            {error && <p className="text-sm font-medium text-destructive" role="alert">{error}</p>}
-            {sent && !error && (
-              <p className="text-sm font-medium text-gold" role="status">
-                Your email app should now open with your message ready to send.
-              </p>
-            )}
-
-            <div className="flex flex-col gap-3 pt-2 sm:flex-row">
-              <Button type="submit" variant="gold" size="xl" className="flex-1">
-                Send Message <Send />
-              </Button>
-              <Button asChild variant="glass" size="xl" className="flex-1">
-                <a href={whatsappHref} target="_blank" rel="noreferrer">
-                  <MessageCircle /> Chat on WhatsApp
-                </a>
-              </Button>
-            </div>
-          </form>
-        </Reveal>
       </div>
     </section>
   );

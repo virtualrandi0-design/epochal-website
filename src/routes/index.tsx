@@ -1,20 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { IntroScreen } from "@/components/epochal/IntroScreen";
 import { Navbar } from "@/components/epochal/Navbar";
 import { Hero } from "@/components/epochal/Hero";
 import { About } from "@/components/epochal/About";
-import { Services } from "@/components/epochal/Services";
-import { Portfolio } from "@/components/epochal/Portfolio";
+import { AutomationServices, VideoServices } from "@/components/epochal/Services";
+import { Projects } from "@/components/epochal/Projects";
 import { Tools } from "@/components/epochal/Tools";
-import { WhyChoose } from "@/components/epochal/WhyChoose";
-import { Testimonials } from "@/components/epochal/Testimonials";
 import { Contact } from "@/components/epochal/Contact";
 import { Footer } from "@/components/epochal/Footer";
-import { WhatsAppFloat } from "@/components/epochal/WhatsAppFloat";
 
 const title = "EPOCHAL — Emmanuel | AI Automation & AI Video Production";
 const description =
-  "Emmanuel, founder of EPOCHAL, builds smarter businesses with AI automation and creates powerful visual experiences with cinematic AI video.";
+  "Emmanuel, founder of EPOCHAL, builds intelligent systems with AI automation and AI agents, and creates powerful visual experiences with AI video production.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,20 +31,17 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <>
-      <IntroScreen />
       <Navbar />
       <main>
         <Hero />
         <About />
-        <Services />
-        <Portfolio />
+        <AutomationServices />
+        <VideoServices />
+        <Projects />
         <Tools />
-        <WhyChoose />
-        <Testimonials />
         <Contact />
       </main>
       <Footer />
-      <WhatsAppFloat />
     </>
   );
 }
