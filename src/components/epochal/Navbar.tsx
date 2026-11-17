@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { navLinks } from "@/content/site";
 import { cn } from "@/lib/utils";
+import { FiverrButton } from "./FiverrButton";
 
 export function Logo({ className }: { className?: string }) {
   return (
@@ -48,6 +49,7 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-3">
+          <FiverrButton size="default" className="hidden h-10 rounded-full px-5 text-xs sm:inline-flex" />
           <Button asChild variant="ink" className="hidden h-10 rounded-full px-5 text-xs sm:inline-flex">
             <a href="#contact">Contact Me</a>
           </Button>
@@ -79,6 +81,9 @@ export function Navbar() {
               </li>
             ))}
             <li className="pt-8">
+              <FiverrButton className="mb-3 w-full" onClick={() => setOpen(false)} />
+            </li>
+            <li>
               <Button asChild variant="ink" size="xl" className="w-full">
                 <a href="#contact" onClick={() => setOpen(false)}>
                   Contact Me

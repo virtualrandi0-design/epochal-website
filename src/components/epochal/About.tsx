@@ -1,4 +1,4 @@
-import { brand, services } from "@/content/site";
+import { about, brand, services } from "@/content/site";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
@@ -24,19 +24,9 @@ export function About() {
 
         <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-8">
           <Reveal className="space-y-6 text-lg leading-relaxed text-muted-foreground lg:col-span-7 lg:col-start-5">
-            <p>
-              I'm <span className="font-semibold text-foreground">Emmanuel</span>, the founder of{" "}
-              <span className="font-semibold text-foreground">EPOCHAL</span> — a creative technology brand focused on AI
-              automation, intelligent AI agents and AI video production.
-            </p>
-            <p>
-              For the past {brand.yearsExperience} years, I've been helping businesses replace repetitive work with
-              reliable automations and bring their ideas to life through polished, AI-generated visuals.
-            </p>
-            <p>
-              My goal is simple: help ambitious brands work smarter behind the scenes and look exceptional in front of
-              their audience.
-            </p>
+            {about.paragraphs.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
           </Reveal>
         </div>
 

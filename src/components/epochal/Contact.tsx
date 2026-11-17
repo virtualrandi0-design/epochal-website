@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { ArrowUpRight, Mail, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { contact, services } from "@/content/site";
+import { FiverrButton } from "./FiverrButton";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
@@ -41,7 +42,7 @@ export function Contact() {
     <section id="contact" className="py-24 sm:py-32">
       <div className="container-site">
         <SectionHeading
-          index="06"
+          index="07"
           eyebrow="Contact"
           title={
             <>
@@ -62,6 +63,8 @@ export function Contact() {
               <ArrowUpRight className="h-5 w-5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
             <p className="mt-4 text-muted-foreground">{contact.responseNote}</p>
+
+            <FiverrButton className="mt-8" />
 
             <div className="mt-10 rounded-[var(--radius-xl)] bg-ink-glow p-7 text-ink-foreground">
               <Mail className="h-5 w-5 text-orange" />

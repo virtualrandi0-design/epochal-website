@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { ArrowDownRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FiverrButton } from "./FiverrButton";
 import { brand, heroVideo } from "@/content/site";
 import oceanPoster from "@/assets/ocean-poster.jpg";
 
@@ -71,7 +72,7 @@ export function Hero() {
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">{brand.intro}</p>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Button asChild variant="brand" size="xl" className="group">
               <a href="#projects">
                 View My Work <ArrowDownRight className="transition-transform group-hover:rotate-45" />
@@ -82,6 +83,7 @@ export function Hero() {
                 Contact Me <ArrowRight className="transition-transform group-hover:translate-x-1" />
               </a>
             </Button>
+            <FiverrButton />
           </div>
         </div>
 

@@ -24,6 +24,35 @@ export const heroVideo = {
   src: "/ocean.mp4",
 };
 
+/** About section text — each string is one paragraph. */
+export const about = {
+  paragraphs: [
+    "Hi there! Welcome to Epochal, a passionate and experienced AI Automation Specialist, AI Video Creator, Website Developer, and Tech Enthusiast dedicated to turning your ideas into smart, high-performing digital solutions. With strong experience in AI workflows, n8n, Make.com, and app automations, I build systems that streamline tasks and boost efficiency. I also create professional AI videos that help brands capture attention and tell their story.",
+  ],
+};
+
+/** Fiverr profile — used by every "Hire me on Fiverr" button and the reviews section. */
+export const fiverr = {
+  url: "https://www.fiverr.com/s/YLokEKK",
+  rating: "5.0",
+};
+
+export type Review = {
+  name: string;
+  country: string;
+  /** 1–5 */
+  rating: number;
+  text: string;
+  /** Shown as written, e.g. "October 2026" */
+  date: string;
+};
+
+/**
+ * Real client reviews copied from Fiverr. Empty for now — a "Review coming soon"
+ * card shows until you add one. Never add made-up reviews.
+ */
+export const reviews: Review[] = [];
+
 export const contact = {
   email: "virtualradni0@gmail.com",
   responseNote: "I usually reply within 24 hours.",

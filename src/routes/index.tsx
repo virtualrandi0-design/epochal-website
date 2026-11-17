@@ -5,6 +5,7 @@ import { About } from "@/components/epochal/About";
 import { AutomationServices, VideoServices } from "@/components/epochal/Services";
 import { Projects } from "@/components/epochal/Projects";
 import { Tools } from "@/components/epochal/Tools";
+import { Reviews } from "@/components/epochal/Reviews";
 import { Contact } from "@/components/epochal/Contact";
 import { Footer } from "@/components/epochal/Footer";
 
@@ -39,6 +40,7 @@ function Index() {
         <VideoServices />
         <Projects />
         <Tools />
+        <Reviews />
         <Contact />
       </main>
       <Footer />
