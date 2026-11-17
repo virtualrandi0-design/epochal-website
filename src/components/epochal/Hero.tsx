@@ -1,6 +1,8 @@
+import { useEffect, useRef } from "react";
 import { ArrowDownRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { brand } from "@/content/site";
+import { brand, heroVideo } from "@/content/site";
+import oceanPoster from "@/assets/ocean-poster.jpg";
 
 export function Hero() {
   const facts = [
@@ -9,8 +11,40 @@ export function Hero() {
     { k: "AI Video", v: "Cinematic, product & UGC films" },
   ];
 
+  // React does not write the `muted` attribute into server HTML, so mobile browsers
+  // can block autoplay; set it on the element and start playback after hydration.
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.play().catch(() => {});
+  }, []);
+
   return (
-    <section id="top" className="relative bg-hero pt-28 sm:pt-32 lg:pt-36">
+    <section id="top" className="relative isolate overflow-hidden pt-28 sm:pt-32 lg:pt-36">
+      {/* Ocean video background — fills the hero behind everything, poster shows while it loads */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-cover bg-center"
+        style={{ backgroundImage: `url(${oceanPoster})` }}
+      >
+        <video
+          ref={videoRef}
+          className="h-full w-full object-cover motion-reduce:hidden"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster={oceanPoster}
+          disablePictureInPicture
+        >
+          <source src={heroVideo.src} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-hero-veil" />
+      </div>
+
       <div className="container-site grid items-center gap-12 pb-16 lg:grid-cols-12 lg:gap-8 lg:pb-24">
         {/* Introduction */}
         <div className="order-2 lg:order-1 lg:col-span-7">
@@ -65,7 +99,7 @@ export function Hero() {
                 className="h-full w-full rounded-full object-cover object-[50%_18%]"
               />
             </div>
-            <div className="absolute -bottom-1 -left-1 grid h-24 w-24 place-items-center rounded-full border-4 border-cream bg-orange text-center text-orange-foreground sm:h-28 sm:w-28">
+            <div className="absolute -bottom-1 -left-1 grid h-24 w-24 place-items-center rounded-full border-4 border-background bg-orange text-center text-orange-foreground sm:h-28 sm:w-28">
               <div>
                 <p className="font-display text-3xl font-semibold leading-none sm:text-4xl">{brand.yearsExperience}</p>
                 <p className="mt-1 text-[0.6rem] font-bold uppercase tracking-[0.14em]">Years</p>

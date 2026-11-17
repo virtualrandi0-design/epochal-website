@@ -31,7 +31,7 @@ export function Navbar() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300",
-        scrolled || open ? "border-border bg-cream/85 backdrop-blur-md" : "border-transparent bg-transparent",
+        scrolled || open ? "border-border bg-background/85 backdrop-blur-md" : "border-transparent bg-transparent",
       )}
     >
       <nav className="container-site flex h-18 items-center justify-between">
@@ -64,7 +64,7 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="h-[calc(100dvh-4.5rem)] border-t border-border bg-cream lg:hidden">
+        <div className="h-[calc(100dvh-4.5rem)] border-t border-border bg-background lg:hidden">
           <ul className="container-site flex flex-col pt-4">
             {navLinks.map((l, i) => (
               <li key={l.href}>

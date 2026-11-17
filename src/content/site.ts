@@ -15,6 +15,15 @@ export const brand = {
     "I help businesses grow through AI automation, intelligent AI agents and professional AI video production.",
 };
 
+/**
+ * Ocean video behind the top section. Upload your file to /public/ocean.mp4.
+ * Tip: keep it short (10–20 s), 720p and under ~5 MB so it loads fast on phones.
+ * Until the file exists, the ocean poster image is shown instead.
+ */
+export const heroVideo = {
+  src: "/ocean.mp4",
+};
+
 export const contact = {
   email: "virtualradni0@gmail.com",
   responseNote: "I usually reply within 24 hours.",

@@ -9,13 +9,13 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * EPOCHAL design system — warm cream paper, cobalt blue, orange accent, near-black ink.
+ * EPOCHAL design system — soft yellow paper, cobalt blue, orange accent, near-black ink.
  * All colors are oklch tokens; components only reference semantic utilities.
  */
 
 @theme inline {
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -76,11 +76,13 @@
 
   /* Brand */
   --cream: oklch(0.961 0.011 89.7);        /* #F5F2EA */
-  --cream-deep: oklch(0.932 0.017 88);     /* #EDE8DC */
+  --yellow: oklch(0.949 0.101 98.9);       /* #FFF0A0 page background */
+  --yellow-light: oklch(0.972 0.052 97.9); /* #FFF7CF cards */
+  --cream-deep: oklch(0.912 0.127 96.1);   /* #FBE27A deeper yellow for alternate sections */
   --primary: oklch(0.554 0.245 266.4);     /* #315CFF cobalt */
   --primary-soft: oklch(0.9 0.05 266);
   --primary-foreground: oklch(0.99 0.005 90);
-  --orange: oklch(0.712 0.185 37.8);       /* #FF7043 */
+  --orange: oklch(0.67 0.195 37.8);        /* #FF7043, deepened slightly to read on yellow */
   --orange-soft: oklch(0.92 0.05 45);
   --orange-foreground: oklch(0.216 0.02 275.8);
   --ink: oklch(0.216 0.02 275.8);          /* #171923 */
@@ -89,22 +91,22 @@
   --ink-border: oklch(0.961 0.011 89.7 / 0.12);
 
   /* Surfaces */
-  --background: var(--cream);
+  --background: var(--yellow);
   --foreground: var(--ink);
-  --card: oklch(0.982 0.008 90);
+  --card: var(--yellow-light);
   --card-foreground: var(--ink);
-  --popover: oklch(0.982 0.008 90);
+  --popover: var(--yellow-light);
   --popover-foreground: var(--ink);
   --secondary: var(--cream-deep);
   --secondary-foreground: var(--ink);
   --muted: var(--cream-deep);
-  --muted-foreground: oklch(0.46 0.02 275);
+  --muted-foreground: oklch(0.4 0.03 275);
   --accent: var(--primary-soft);
   --accent-foreground: var(--ink);
   --destructive: oklch(0.56 0.2 28);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.216 0.02 275.8 / 0.1);
-  --border-strong: oklch(0.216 0.02 275.8 / 0.22);
+  --border: oklch(0.216 0.02 275.8 / 0.12);
+  --border-strong: oklch(0.216 0.02 275.8 / 0.26);
   --input: oklch(0.216 0.02 275.8 / 0.16);
   --ring: var(--primary);
 
@@ -113,7 +115,7 @@
   --chart-3: var(--ink);
   --chart-4: oklch(0.7 0.1 266);
   --chart-5: oklch(0.8 0.1 45);
-  --sidebar: var(--cream);
+  --sidebar: var(--background);
   --sidebar-foreground: var(--ink);
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
@@ -130,7 +132,11 @@
   --gradient-ink:
     radial-gradient(60% 70% at 85% 0%, oklch(0.712 0.185 37.8 / 0.14), transparent 65%),
     radial-gradient(50% 60% at 0% 100%, oklch(0.554 0.245 266.4 / 0.18), transparent 65%);
-  --gradient-placeholder-blue: linear-gradient(145deg, oklch(0.9 0.05 266), oklch(0.95 0.02 266) 55%, var(--cream));
+  --gradient-placeholder-blue: linear-gradient(145deg, oklch(0.9 0.05 266), oklch(0.95 0.02 266) 55%, var(--yellow-light));
+  /* Soft yellow veil over the hero ocean video: ~45% tint, a touch stronger behind the text, fading into the page */
+  --gradient-hero-veil:
+    linear-gradient(to bottom, transparent 70%, var(--background)),
+    linear-gradient(90deg, oklch(0.949 0.101 98.9 / 0.62), oklch(0.949 0.101 98.9 / 0.4));
   --gradient-placeholder-orange: linear-gradient(145deg, oklch(0.3 0.03 276), var(--ink) 60%);
   --shadow-soft: 0 1px 0 oklch(1 0 0 / 0.6) inset, 0 18px 40px -24px oklch(0.216 0.02 275.8 / 0.28);
   --shadow-photo: 0 40px 80px -40px oklch(0.216 0.02 275.8 / 0.45);
@@ -168,8 +174,8 @@
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     font-optical-sizing: auto;
-    letter-spacing: -0.02em;
-    font-weight: 500;
+    letter-spacing: -0.03em;
+    font-weight: 700;
   }
 
   section[id] {
@@ -186,6 +192,10 @@
 
 @utility bg-hero {
   background: var(--gradient-hero);
+}
+
+@utility bg-hero-veil {
+  background: var(--gradient-hero-veil);
 }
 
 @utility bg-ink-glow {

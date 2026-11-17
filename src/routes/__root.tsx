@@ -84,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "EPOCHAL — AI Automation & AI Video Production" },
       { name: "description", content: "EPOCHAL by Emmanuel — AI automation, intelligent AI agents and professional AI video production." },
       { name: "author", content: "Emmanuel — EPOCHAL" },
-      { name: "theme-color", content: "#F5F2EA" },
+      { name: "theme-color", content: "#FFF0A0" },
       { property: "og:title", content: "EPOCHAL — AI Automation & AI Video Production" },
       { property: "og:description", content: "EPOCHAL by Emmanuel — AI automation, intelligent AI agents and professional AI video production." },
       { property: "og:type", content: "website" },
@@ -100,7 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=JetBrains+Mono:wght@500&family=Manrope:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600..900;1,600..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap",
       },
     ],
   }),
