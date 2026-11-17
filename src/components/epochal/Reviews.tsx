@@ -1,9 +1,42 @@
-import { MessageSquareQuote, Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronDown, Star } from "lucide-react";
 import { fiverr, reviews, type Review } from "@/content/site";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { FiverrButton } from "./FiverrButton";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
+
+/** How many review cards are open before "Show more reviews". */
+const SHOW_FIRST = 6;
+
+const relativeFormatter = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+
+/**
+ * "2026-11-16" -> "yesterday", "2026-11-12" -> "5 days ago", "2026-08-17" -> "3 months ago".
+ * Calculated from `now` at render time, so it stays correct as days pass.
+ */
+export function relativeTime(iso: string, now: number): string {
+  const then = new Date(`${iso}T00:00:00`).getTime();
+  if (Number.isNaN(then)) return "";
+  const days = (then - now) / 86_400_000;
+  const years = Math.trunc(days / 365) || 0;
+  if (Math.abs(years) >= 1) return relativeFormatter.format(years, "year");
+  const months = Math.trunc(days / 30.44) || 0;
+  if (Math.abs(months) >= 1) return relativeFormatter.format(months, "month");
+  return relativeFormatter.format(Math.trunc(days) || 0, "day");
+}
+
+/** Current time, refreshed every minute so the "x days ago" labels never go stale. */
+function useNow() {
+  const [now, setNow] = useState<number | null>(null);
+  useEffect(() => {
+    setNow(Date.now());
+    const id = window.setInterval(() => setNow(Date.now()), 60_000);
+    return () => window.clearInterval(id);
+  }, []);
+  return now;
+}
 
 function Stars({ rating = 5, className }: { rating?: number; className?: string }) {
   return (
@@ -15,7 +48,7 @@ function Stars({ rating = 5, className }: { rating?: number; className?: string 
   );
 }
 
-function ReviewCard({ review }: { review: Review }) {
+function ReviewCard({ review, now }: { review: Review; now: number | null }) {
   return (
     <figure className="flex h-full flex-col rounded-[var(--radius-xl)] border border-border bg-card p-7 shadow-soft">
       <Stars rating={review.rating} />
@@ -23,25 +56,22 @@ function ReviewCard({ review }: { review: Review }) {
       <figcaption className="mt-6 flex items-end justify-between gap-4 border-t border-border pt-5">
         <span>
           <span className="block font-display text-xl">{review.name}</span>
-          <span className="text-sm text-muted-foreground">{review.country}</span>
+          {review.country ? <span className="text-sm text-muted-foreground">{review.country}</span> : null}
         </span>
-        <span className="text-right text-sm text-muted-foreground">{review.date}</span>
+        <span className="text-right text-sm text-muted-foreground">
+          {now === null ? "\u00A0" : relativeTime(review.date, now)}
+        </span>
       </figcaption>
     </figure>
   );
 }
 
-function PlaceholderCard() {
-  return (
-    <div className="flex h-full min-h-64 flex-col items-center justify-center rounded-[var(--radius-xl)] border border-dashed border-border-strong bg-card/50 p-7 text-center">
-      <MessageSquareQuote className="h-7 w-7 text-primary" />
-      <p className="mt-4 font-display text-2xl">Review coming soon</p>
-      <p className="mt-2 max-w-xs text-sm text-muted-foreground">Client feedback from Fiverr will appear here.</p>
-    </div>
-  );
-}
-
 export function Reviews() {
+  const now = useNow();
+  const [showAll, setShowAll] = useState(false);
+  const sorted = [...reviews].sort((a, b) => b.date.localeCompare(a.date));
+  const visible = showAll ? sorted : sorted.slice(0, SHOW_FIRST);
+
   return (
     <section id="reviews" className="py-24 sm:py-32">
       <div className="container-site">
@@ -76,17 +106,21 @@ export function Reviews() {
         </Reveal>
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {reviews.map((r, i) => (
-            <Reveal key={r.name + i} delay={(i % 3) * 80}>
-              <ReviewCard review={r} />
+          {visible.map((r, i) => (
+            <Reveal key={`${r.name}-${r.date}-${i}`} delay={(i % 3) * 80}>
+              <ReviewCard review={r} now={now} />
             </Reveal>
           ))}
-          {reviews.length === 0 && (
-            <Reveal>
-              <PlaceholderCard />
-            </Reveal>
-          )}
         </div>
+
+        {sorted.length > SHOW_FIRST && (
+          <Reveal className="mt-10 flex justify-center">
+            <Button variant="line" size="xl" onClick={() => setShowAll((v) => !v)}>
+              {showAll ? "Show fewer reviews" : "Show more reviews"}
+              <ChevronDown className={cn("transition-transform", showAll && "rotate-180")} />
+            </Button>
+          </Reveal>
+        )}
 
         <Reveal className="mt-10">
           <FiverrButton label="See all reviews on Fiverr" />
