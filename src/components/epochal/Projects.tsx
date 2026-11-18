@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { ArrowUpRight, ImagePlus, Play } from "lucide-react";
+import { ArrowUpRight, Images, ImagePlus, Play } from "lucide-react";
 import { projects, type Project } from "@/content/site";
+import { Lightbox } from "./Lightbox";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 import { cn } from "@/lib/utils";
 
-const filters = ["All", "Automation", "Video"] as const;
+const filters = ["All", "AI Automation", "AI Video"] as const;
 type Filter = (typeof filters)[number];
 
 function ProjectMedia({ project }: { project: Project }) {
   const [playing, setPlaying] = useState(false);
-  const isVideo = project.category === "Video";
+  const isVideo = project.category === "AI Video";
+  const cover = project.images?.[0] ?? project.image;
 
   if (playing && project.videoEmbedUrl) {
     return (
@@ -26,12 +28,13 @@ function ProjectMedia({ project }: { project: Project }) {
 
   return (
     <>
-      {project.image ? (
+      {cover ? (
         <img
-          src={project.image}
+          src={cover}
           alt={project.title}
           loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+          decoding="async"
+          className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
         />
       ) : (
         <div
@@ -50,6 +53,11 @@ function ProjectMedia({ project }: { project: Project }) {
           <span className="eyebrow text-[0.65rem]">{isVideo ? "Video placeholder" : "Project image placeholder"}</span>
         </div>
       )}
+      {project.images && project.images.length > 1 && (
+        <span className="absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-ink/80 px-3 py-1 text-xs font-semibold text-ink-foreground backdrop-blur-sm">
+          <Images className="h-3.5 w-3.5" />+{project.images.length - 1}
+        </span>
+      )}
       {project.videoEmbedUrl && (
         <button
           type="button"
@@ -67,37 +75,72 @@ function ProjectMedia({ project }: { project: Project }) {
 }
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
-  return (
-    <Reveal delay={(index % 2) * 80} className="card-paper group flex flex-col overflow-hidden">
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const gallery = project.images && project.images.length > 0 ? project.images : null;
+
+  const content = (
+    <>
       <div className="relative aspect-[16/10] overflow-hidden border-b border-border">
         <ProjectMedia project={project} />
       </div>
       <div className="flex flex-1 flex-col p-7">
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <span
             className={cn(
               "rounded-full px-3 py-1 text-xs font-semibold",
-              project.category === "Video" ? "bg-orange-soft text-foreground" : "bg-primary-soft text-primary",
+              project.category === "AI Video" ? "bg-orange-soft text-foreground" : "bg-primary-soft text-primary",
             )}
           >
             {project.category}
           </span>
-          {project.tags.map((t) => (
-            <span key={t} className="rounded-full border border-border-strong px-3 py-1 text-xs text-muted-foreground">
-              {t}
-            </span>
-          ))}
+          {project.date && <span className="text-xs text-muted-foreground">{project.date}</span>}
         </div>
         <h3 className="mt-5 text-2xl">{project.title}</h3>
-        <p className="mt-3 flex-1 leading-relaxed text-muted-foreground">{project.description}</p>
-        <a
-          href={project.link || "#contact"}
-          {...(project.link ? { target: "_blank", rel: "noreferrer" } : {})}
-          className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
-        >
-          {project.link ? "View project" : "Want something similar?"} <ArrowUpRight className="h-4 w-4" />
-        </a>
+        <p className="mt-3 line-clamp-2 leading-relaxed text-muted-foreground">{project.description}</p>
+        {project.platforms.length > 0 && (
+          <ul className="mt-5 flex flex-wrap gap-2" aria-label="Platforms used">
+            {[...project.platforms, ...project.tags].map((t) => (
+              <li key={t} className="rounded-full border border-border-strong px-3 py-1 text-xs text-muted-foreground">
+                {t}
+              </li>
+            ))}
+          </ul>
+        )}
+        <span className="mt-auto pt-6">
+          {gallery ? (
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
+              View gallery ({gallery.length} images) <ArrowUpRight className="h-4 w-4" />
+            </span>
+          ) : (
+            <a
+              href={project.link || "#contact"}
+              {...(project.link ? { target: "_blank", rel: "noreferrer" } : {})}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+            >
+              {project.link ? "View project" : "Want something similar?"} <ArrowUpRight className="h-4 w-4" />
+            </a>
+          )}
+        </span>
       </div>
+    </>
+  );
+
+  return (
+    <Reveal delay={(index % 2) * 80} className="card-paper group flex flex-col overflow-hidden">
+      {gallery ? (
+        <>
+          <button
+            type="button"
+            onClick={() => setGalleryOpen(true)}
+            className="flex flex-1 flex-col text-left focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary"
+          >
+            {content}
+          </button>
+          {galleryOpen && <Lightbox images={gallery} title={project.title} onClose={() => setGalleryOpen(false)} />}
+        </>
+      ) : (
+        content
+      )}
     </Reveal>
   );
 }

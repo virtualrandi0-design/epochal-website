@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { about, brand, contact, fiverr, reviews, services, tools, projects } from "@/content/site";
+import { about, brand, contact, fiverr, reviews, services, showcase, tools, projects } from "@/content/site";
 
 describe("EPOCHAL site content", () => {
   it("states 3 years of experience", () => {
@@ -30,9 +30,21 @@ describe("EPOCHAL site content", () => {
     ]);
   });
 
-  it("has project placeholders for both automation and video", () => {
-    expect(projects.some((p) => p.category === "Automation")).toBe(true);
-    expect(projects.some((p) => p.category === "Video")).toBe(true);
+  it("uses the AI Automation / AI Video project categories", () => {
+    expect(projects.map((p) => p.category)).toEqual(["AI Automation", "AI Video"]);
+  });
+
+  it("lists the Printify project with its platforms, date and gallery in order", () => {
+    const printify = projects.find((p) => p.title === "Printify Print-on-Demand Auto Designer");
+    expect(printify?.category).toBe("AI Automation");
+    expect(printify?.date).toBe("July 2026");
+    expect(printify?.platforms).toEqual(["Make.com", "OpenAI", "Google Drive", "Cloudinary", "Printify"]);
+    const names = (printify?.images ?? []).map((src) => src.split("/").pop()?.split("?")[0]);
+    expect(names.slice(0, 3)).toEqual(["01-workflow.png", "02-products.png", "03-white-tee.png"]);
+  });
+
+  it("has 5 hero showcase slides", () => {
+    expect(showcase).toHaveLength(5);
   });
 
   it("links to the requested Fiverr profile with a 5.0 rating", () => {
@@ -40,8 +52,9 @@ describe("EPOCHAL site content", () => {
     expect(fiverr.rating).toBe("5.0");
   });
 
-  it("ships with no made-up reviews", () => {
-    expect(reviews).toEqual([]);
+  it("shows the 13 real Fiverr reviews, all rated 5", () => {
+    expect(reviews).toHaveLength(13);
+    expect(reviews.every((r) => r.rating === 5)).toBe(true);
   });
 
   it("uses the About text exactly as supplied", () => {

@@ -42,7 +42,7 @@ function Stars({ rating = 5, className }: { rating?: number; className?: string 
   return (
     <span className={cn("flex items-center gap-0.5", className)} role="img" aria-label={`${rating} out of 5 stars`}>
       {Array.from({ length: 5 }, (_, i) => (
-        <Star key={i} className={cn("h-4 w-4", i < rating ? "fill-orange text-orange" : "text-border-strong")} />
+        <Star key={i} className={cn("h-3.5 w-3.5", i < rating ? "fill-orange text-orange" : "text-border-strong")} />
       ))}
     </span>
   );
@@ -50,15 +50,15 @@ function Stars({ rating = 5, className }: { rating?: number; className?: string 
 
 function ReviewCard({ review, now }: { review: Review; now: number | null }) {
   return (
-    <figure className="flex h-full flex-col rounded-[var(--radius-xl)] border border-border bg-card p-7 shadow-soft">
+    <figure className="flex h-full flex-col rounded-[var(--radius-lg)] border border-border bg-card p-5 shadow-soft">
       <Stars rating={review.rating} />
-      <blockquote className="mt-5 flex-1 text-lg leading-relaxed text-foreground">“{review.text}”</blockquote>
-      <figcaption className="mt-6 flex items-end justify-between gap-4 border-t border-border pt-5">
-        <span>
-          <span className="block font-display text-xl">{review.name}</span>
-          {review.country ? <span className="text-sm text-muted-foreground">{review.country}</span> : null}
+      <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-foreground">“{review.text}”</blockquote>
+      <figcaption className="mt-4 flex items-end justify-between gap-3 border-t border-border pt-3">
+        <span className="min-w-0">
+          <span className="block truncate font-display text-base">{review.name}</span>
+          {review.country ? <span className="text-xs text-muted-foreground">{review.country}</span> : null}
         </span>
-        <span className="text-right text-sm text-muted-foreground">
+        <span className="shrink-0 text-right text-xs text-muted-foreground">
           {now === null ? "\u00A0" : relativeTime(review.date, now)}
         </span>
       </figcaption>
@@ -105,13 +105,16 @@ export function Reviews() {
           </a>
         </Reveal>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((r, i) => (
-            <Reveal key={`${r.name}-${r.date}-${i}`} delay={(i % 3) * 80}>
-              <ReviewCard review={r} now={now} />
-            </Reveal>
-          ))}
-        </div>
+        {/* Phones: swipeable row that snaps card by card. Tablet: 2 columns. Desktop: 3 columns. */}
+        <Reveal className="mt-10">
+          <div className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-3 sm:-mx-8 sm:scroll-px-8 sm:px-8 md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
+            {visible.map((r, i) => (
+              <div key={`${r.name}-${r.date}-${i}`} className="w-[82%] shrink-0 snap-start sm:w-[60%] md:w-auto">
+                <ReviewCard review={r} now={now} />
+              </div>
+            ))}
+          </div>
+        </Reveal>
 
         {sorted.length > SHOW_FIRST && (
           <Reveal className="mt-10 flex justify-center">

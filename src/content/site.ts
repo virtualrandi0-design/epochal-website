@@ -24,6 +24,32 @@ export const heroVideo = {
   src: "/ocean.mp4",
 };
 
+/** Sorts a Vite glob result by filename and returns the image URLs. */
+function sortedUrls(files: Record<string, string>): string[] {
+  return Object.keys(files)
+    .sort((a, b) => a.localeCompare(b))
+    .map((k) => files[k] as string);
+}
+
+/**
+ * Hero showcase — 5 AI video / design thumbnails shown one at a time.
+ * Drop your images into src/assets/showcase/ (e.g. 01.jpg … 05.jpg, 16:10 works best).
+ * They are picked up automatically in filename order; until then a gradient placeholder shows.
+ */
+const showcaseFiles = sortedUrls(
+  import.meta.glob<string>("/src/assets/showcase/*.{png,jpg,jpeg,webp,avif}", { eager: true, import: "default" }),
+);
+
+export type ShowcaseItem = { title: string; image?: string | undefined };
+
+export const showcase: ShowcaseItem[] = [
+  { title: "Cinematic AI film" },
+  { title: "AI product commercial" },
+  { title: "AI UGC video" },
+  { title: "Brand visual design" },
+  { title: "Social media creative" },
+].map((item, i) => ({ ...item, image: showcaseFiles[i] }));
+
 /** About section text — each string is one paragraph. */
 export const about = {
   paragraphs: [
@@ -210,12 +236,20 @@ export const services: {
   },
 ];
 
+export type ProjectCategory = "AI Automation" | "AI Video";
+
 export type Project = {
   title: string;
   description: string;
-  category: "Automation" | "Video";
+  category: ProjectCategory;
   /** Optional cover image URL. Leave empty to show the styled placeholder panel. */
   image?: string;
+  /** Optional gallery — the first image is the cover. Clicking the card opens all of them. */
+  images?: string[];
+  /** Tools / platforms used, shown as badges. */
+  platforms: string[];
+  /** Optional date label, e.g. "July 2026". */
+  date?: string;
   /** Optional YouTube / Vimeo embed URL, e.g. https://www.youtube.com/embed/VIDEO_ID */
   videoEmbedUrl?: string;
   /** Optional link to a live project, case study or demo */
@@ -224,33 +258,33 @@ export type Project = {
 };
 
 /**
- * Selected projects — placeholders. Replace titles, descriptions, tags,
- * and add an `image`, `videoEmbedUrl` or `link` when your real work is ready.
+ * Printify gallery — every image in src/assets/projects/printify/ is used, in filename order
+ * (01-workflow.png, 02-products.png, 03-white-tee.png, 04-cream-tee.png …).
+ */
+const printifyImages = sortedUrls(
+  import.meta.glob<string>("/src/assets/projects/printify/*.{png,jpg,jpeg,webp}", { eager: true, import: "default" }),
+);
+
+/**
+ * Selected projects. Add an `images` gallery, `videoEmbedUrl` or `link` when your work is ready.
  */
 export const projects: Project[] = [
   {
-    title: "Automation Project Title",
-    description: "Placeholder — describe the business problem, the workflow you built and the tools you connected.",
-    category: "Automation",
-    tags: ["n8n", "OpenAI", "CRM"],
-  },
-  {
-    title: "Voice Agent Project Title",
-    description: "Placeholder — describe the voice agent, what it handles for the client and how it was deployed.",
-    category: "Automation",
-    tags: ["Vapi", "Retell AI"],
-  },
-  {
-    title: "Product Commercial Title",
-    description: "Placeholder — describe the brand, the creative direction and the AI tools used to produce the film.",
-    category: "Video",
-    tags: ["Kling", "Runway"],
+    title: "Printify Print-on-Demand Auto Designer",
+    description:
+      "A scheduled automation that creates AI t-shirt designs, saves them to Google Drive, hosts them on Cloudinary and lists finished products in Printify automatically. Built for a Fiverr client.",
+    category: "AI Automation",
+    images: printifyImages,
+    platforms: ["Make.com", "OpenAI", "Google Drive", "Cloudinary", "Printify"],
+    date: "July 2026",
+    tags: [],
   },
   {
     title: "Cinematic Video Title",
     description: "Placeholder — describe the story, the visual style and where the final video was published.",
-    category: "Video",
-    tags: ["Veo", "Runway"],
+    category: "AI Video",
+    platforms: ["Veo", "Runway"],
+    tags: [],
   },
 ];
 

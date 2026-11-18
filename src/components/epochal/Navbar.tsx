@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { navLinks } from "@/content/site";
 import { cn } from "@/lib/utils";
 import { FiverrButton } from "./FiverrButton";
+import { LiveClock } from "./LiveClock";
 
 export function Logo({ className }: { className?: string }) {
   return (
@@ -35,6 +36,7 @@ export function Navbar() {
         scrolled || open ? "border-border bg-background/85 backdrop-blur-md" : "border-transparent bg-transparent",
       )}
     >
+      <LiveClock />
       <nav className="container-site flex h-18 items-center justify-between">
         <Logo />
 
@@ -66,7 +68,7 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="h-[calc(100dvh-4.5rem)] border-t border-border bg-background lg:hidden">
+        <div className="h-[calc(100dvh-7rem)] border-t border-border bg-background lg:hidden">
           <ul className="container-site flex flex-col pt-4">
             {navLinks.map((l, i) => (
               <li key={l.href}>

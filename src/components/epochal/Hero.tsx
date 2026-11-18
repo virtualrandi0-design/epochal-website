@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { ArrowDownRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FiverrButton } from "./FiverrButton";
+import { HeroShowcase } from "./HeroShowcase";
 import { brand, heroVideo } from "@/content/site";
 import oceanPoster from "@/assets/ocean-poster.jpg";
 
@@ -23,7 +24,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="top" className="relative isolate overflow-hidden pt-28 sm:pt-32 lg:pt-36">
+    <section id="top" className="relative isolate overflow-hidden pt-40 sm:pt-44 lg:pt-48">
       {/* Ocean video background — fills the hero behind everything, poster shows while it loads */}
       <div
         aria-hidden="true"
@@ -46,9 +47,9 @@ export function Hero() {
         <div className="absolute inset-0 bg-hero-veil" />
       </div>
 
-      <div className="container-site grid items-center gap-12 pb-16 lg:grid-cols-12 lg:gap-8 lg:pb-24">
+      <div className="container-site grid items-center gap-12 pb-16 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-14 lg:pb-24">
         {/* Introduction */}
-        <div className="order-2 lg:order-1 lg:col-span-7">
+        <div className="order-2 lg:order-1 lg:col-span-7 lg:row-span-2">
           <p className="eyebrow inline-flex items-center gap-2.5 rounded-full border border-border-strong bg-card/60 px-4 py-2 text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-orange" />
             AI Automation · AI Video Production
@@ -88,7 +89,7 @@ export function Hero() {
         </div>
 
         {/* Circular portrait */}
-        <div className="order-1 flex justify-center lg:order-2 lg:col-span-5 lg:justify-end">
+        <div className="order-1 flex justify-center lg:order-2 lg:col-span-5 lg:col-start-8 lg:justify-end">
           <div className="relative w-[min(76vw,25rem)]">
             <div className="absolute -inset-4 rounded-full border border-primary/35 sm:-inset-5" />
             <div className="relative aspect-square rounded-full bg-cream-deep p-2.5 shadow-photo sm:p-3">
@@ -108,6 +109,11 @@ export function Hero() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Showcase frame — AI video / design thumbnails, one at a time */}
+        <div className="order-3 mx-auto w-full max-w-md lg:col-span-5 lg:col-start-8 lg:mr-0 lg:max-w-[25rem]">
+          <HeroShowcase />
         </div>
       </div>
 
