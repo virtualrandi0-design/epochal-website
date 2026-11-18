@@ -24,7 +24,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="top" className="relative isolate overflow-hidden pt-40 sm:pt-44 lg:pt-48">
+    <section id="top" className="relative isolate overflow-hidden pt-32 sm:pt-36 lg:pt-40">
       {/* Ocean video background — fills the hero behind everything, poster shows while it loads */}
       <div
         aria-hidden="true"

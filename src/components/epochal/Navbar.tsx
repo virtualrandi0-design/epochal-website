@@ -36,9 +36,11 @@ export function Navbar() {
         scrolled || open ? "border-border bg-background/85 backdrop-blur-md" : "border-transparent bg-transparent",
       )}
     >
-      <LiveClock />
       <nav className="container-site flex h-18 items-center justify-between">
-        <Logo />
+        <div className="flex items-center gap-3 sm:gap-5">
+          <Logo />
+          <LiveClock className="shrink-0" />
+        </div>
 
         <ul className="hidden items-center gap-9 lg:flex">
           {navLinks.map((l) => (
@@ -68,7 +70,7 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="h-[calc(100dvh-7rem)] border-t border-border bg-background lg:hidden">
+        <div className="h-[calc(100dvh-4.5rem)] border-t border-border bg-background lg:hidden">
           <ul className="container-site flex flex-col pt-4">
             {navLinks.map((l, i) => (
               <li key={l.href}>
