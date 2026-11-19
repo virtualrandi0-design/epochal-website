@@ -17,7 +17,7 @@ export function About() {
           eyebrow="About Emmanuel"
           title={
             <>
-              Where intelligent systems meet <em className="text-primary">visual storytelling.</em>
+              Where intelligent systems meet <em className="text-gradient">visual storytelling.</em>
             </>
           }
         />

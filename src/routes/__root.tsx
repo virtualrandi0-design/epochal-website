@@ -84,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "EPOCHAL — AI Automation & AI Video Production" },
       { name: "description", content: "EPOCHAL by Emmanuel — AI automation, intelligent AI agents and professional AI video production." },
       { name: "author", content: "Emmanuel — EPOCHAL" },
-      { name: "theme-color", content: "#FFF0A0" },
+      { name: "theme-color", content: "#070B16" },
       { property: "og:title", content: "EPOCHAL — AI Automation & AI Video Production" },
       { property: "og:description", content: "EPOCHAL by Emmanuel — AI automation, intelligent AI agents and professional AI video production." },
       { property: "og:type", content: "website" },

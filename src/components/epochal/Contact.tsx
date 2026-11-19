@@ -46,7 +46,7 @@ export function Contact() {
           eyebrow="Contact"
           title={
             <>
-              Let's build something <em className="text-primary">remarkable.</em>
+              Let's build something <em className="text-gradient">remarkable.</em>
             </>
           }
           description="Tell me about your business, your goals or your next idea. I'll get back to you personally."
@@ -57,7 +57,7 @@ export function Contact() {
             <p className={labelClass}>Email me directly</p>
             <a
               href={`mailto:${contact.email}`}
-              className="group inline-flex items-center gap-3 break-all font-display text-2xl text-foreground underline decoration-orange decoration-2 underline-offset-[6px] transition-colors hover:text-primary sm:text-[1.7rem]"
+              className="group inline-flex items-center gap-3 break-all font-display text-2xl text-foreground underline decoration-orange decoration-2 underline-offset-[6px] transition-colors hover:text-cyan sm:text-[1.7rem]"
             >
               {contact.email}
               <ArrowUpRight className="h-5 w-5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -66,7 +66,7 @@ export function Contact() {
 
             <FiverrButton className="mt-8" />
 
-            <div className="mt-10 rounded-[var(--radius-xl)] bg-ink-glow p-7 text-ink-foreground">
+            <div className="mt-10 rounded-[var(--radius-xl)] border border-border bg-ink-glow p-7 text-ink-foreground">
               <Mail className="h-5 w-5 text-orange" />
               <p className="mt-4 font-display text-xl leading-snug">
                 Automation, AI agents or a video project — every enquiry is answered by Emmanuel himself.
@@ -109,7 +109,7 @@ export function Contact() {
                 </p>
               )}
               {sent && !error && (
-                <p className="text-sm font-medium text-primary" role="status">
+                <p className="text-sm font-medium text-cyan" role="status">
                   Your email app should now open with your message ready to send.
                 </p>
               )}

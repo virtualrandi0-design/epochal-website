@@ -1,10 +1,69 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { ArrowDownRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FiverrButton } from "./FiverrButton";
 import { HeroShowcase } from "./HeroShowcase";
-import { brand, heroVideo } from "@/content/site";
-import oceanPoster from "@/assets/ocean-poster.jpg";
+import { ToolMarquee } from "./ToolMarquee";
+import { brand, heroVideos } from "@/content/site";
+
+/** Splits text into words that fade and slide up one by one, starting at stagger index `start`. */
+function Words({ text, start = 0, className }: { text: string; start?: number; className?: string }) {
+  return (
+    <>
+      {text.split(" ").map((w, i) => (
+        <span key={`${w}-${i}`}>
+          <span className={className ? `word ${className}` : "word"} style={{ "--i": start + i } as CSSProperties}>
+            {w}
+          </span>{" "}
+        </span>
+      ))}
+    </>
+  );
+}
+
+/** Vertical phone video: muted, loops, and plays only while it is on screen. */
+function PhoneVideo() {
+  const ref = useRef<HTMLVideoElement>(null);
+  const video = heroVideos[0];
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    // React does not write `muted` into server HTML; set it so mobile browsers allow playback.
+    v.muted = true;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      },
+      { threshold: 0.25 },
+    );
+    observer.observe(v);
+    return () => observer.disconnect();
+  }, []);
+
+  if (!video) return null;
+  return (
+    <div className="relative aspect-[9/16] overflow-hidden rounded-[2.5rem] border border-primary/60 shadow-glow">
+      <video
+        ref={ref}
+        className="hero-video h-full w-full object-contain"
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        poster={video.poster}
+        width={720}
+        height={1280}
+        disablePictureInPicture
+        aria-label="EPOCHAL showreel"
+      >
+        <source src={video.src} type="video/mp4" />
+      </video>
+    </div>
+  );
+}
 
 export function Hero() {
   const facts = [
@@ -12,63 +71,41 @@ export function Hero() {
     { k: "AI Automation", v: "Workflows, voice & AI agents" },
     { k: "AI Video", v: "Cinematic, product & UGC films" },
   ];
-
-  // React does not write the `muted` attribute into server HTML, so mobile browsers
-  // can block autoplay; set it on the element and start playback after hydration.
-  const videoRef = useRef<HTMLVideoElement>(null);
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = true;
-    v.play().catch(() => {});
-  }, []);
+  const first = brand.headline[0] ?? "";
+  const second = brand.headline[1] ?? "";
+  const firstCount = first.split(" ").length;
 
   return (
-    <section id="top" className="relative isolate overflow-hidden pt-32 sm:pt-36 lg:pt-40">
-      {/* Ocean video background — fills the hero behind everything, poster shows while it loads */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-cover bg-center"
-        style={{ backgroundImage: `url(${oceanPoster})` }}
-      >
-        <video
-          ref={videoRef}
-          className="h-full w-full object-cover motion-reduce:hidden"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          poster={oceanPoster}
-          disablePictureInPicture
-        >
-          <source src={heroVideo.src} type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-hero-veil" />
+    <section id="top" className="relative isolate overflow-hidden pt-28 sm:pt-32 lg:pt-36">
+      {/* Dark gradient with a soft drifting blue and cyan glow */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-hero">
+        <div className="hero-glow bg-glow-blue right-[-12rem] top-[-8rem] h-[42rem] w-[42rem]" />
+        <div className="hero-glow is-alt bg-glow-cyan bottom-[-10rem] left-[-14rem] h-[36rem] w-[36rem]" />
       </div>
 
-      <div className="container-site grid items-center gap-12 pb-16 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-14 lg:pb-24">
+      <div className="container-site grid items-center gap-14 pb-16 lg:grid-cols-12 lg:gap-8 lg:pb-24">
         {/* Introduction */}
-        <div className="order-2 lg:order-1 lg:col-span-7 lg:row-span-2">
+        <div className="lg:col-span-7">
           <p className="eyebrow inline-flex items-center gap-2.5 rounded-full border border-border-strong bg-card/60 px-4 py-2 text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-orange" />
             AI Automation · AI Video Production
           </p>
 
           <h1 className="mt-8">
-            <span className="block text-[clamp(3.6rem,10.5vw,8rem)] leading-[0.88] tracking-[-0.04em]">
-              {brand.name.toUpperCase()}
+            <span className="block text-[clamp(3.4rem,10vw,7.5rem)] leading-[0.88] tracking-[-0.04em]">
+              <Words text={brand.name.toUpperCase()} />
             </span>
             <span className="mt-5 flex items-center gap-4">
               <span className="h-px w-12 bg-orange" />
               <span className="font-sans text-base font-semibold tracking-normal text-muted-foreground sm:text-lg">
-                Founder of <span className="font-display text-2xl italic text-primary sm:text-3xl">{brand.brand}</span>
+                Founder of <span className="text-gradient font-display text-2xl italic sm:text-3xl">{brand.brand}</span>
               </span>
             </span>
           </h1>
 
           <p className="mt-10 max-w-2xl font-display text-[1.7rem] leading-[1.2] sm:text-[2.1rem]">
-            {brand.headline[0]} <span className="italic text-primary">{brand.headline[1]}</span>
+            <Words text={first} start={1} />
+            <Words text={second} start={1 + firstCount} className="text-gradient italic" />
           </p>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">{brand.intro}</p>
@@ -88,32 +125,36 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Circular portrait */}
-        <div className="order-1 flex justify-center lg:order-2 lg:col-span-5 lg:col-start-8 lg:justify-end">
-          <div className="relative w-[min(76vw,25rem)]">
-            <div className="absolute -inset-4 rounded-full border border-primary/35 sm:-inset-5" />
-            <div className="relative aspect-square rounded-full bg-cream-deep p-2.5 shadow-photo sm:p-3">
-              <img
-                src={brand.portrait}
-                alt="Emmanuel, founder of EPOCHAL"
-                width={1091}
-                height={1442}
-                fetchPriority="high"
-                className="h-full w-full rounded-full object-cover object-[50%_18%]"
-              />
-            </div>
-            <div className="absolute -bottom-1 -left-1 grid h-24 w-24 place-items-center rounded-full border-4 border-background bg-orange text-center text-orange-foreground sm:h-28 sm:w-28">
-              <div>
-                <p className="font-display text-3xl font-semibold leading-none sm:text-4xl">{brand.yearsExperience}</p>
-                <p className="mt-1 text-[0.6rem] font-bold uppercase tracking-[0.14em]">Years</p>
+        {/* Phone frame with the video, profile photo and floating showcase card */}
+        <div className="flex justify-center lg:col-span-5 lg:justify-end">
+          <div className="relative w-[min(78vw,300px,45vh)] min-w-[220px] lg:w-[min(21rem,45vh)]">
+            <PhoneVideo />
+
+            {/* Profile photo overlapping the bottom-left of the frame */}
+            <div className="float-soft absolute -bottom-6 -left-8 w-28 sm:-left-12 sm:w-32 lg:-left-14 lg:w-36">
+              <div className="rounded-full bg-gradient-brand p-1 shadow-photo">
+                <img
+                  src={brand.portrait}
+                  alt="Emmanuel, founder of EPOCHAL"
+                  width={1091}
+                  height={1442}
+                  decoding="async"
+                  className="aspect-square w-full rounded-full border-2 border-background object-cover object-[50%_18%]"
+                />
+              </div>
+              <div className="pulse-soft absolute -right-3 -top-2 grid h-14 w-14 place-items-center rounded-full border-4 border-background bg-orange text-center text-orange-foreground sm:h-16 sm:w-16">
+                <div>
+                  <p className="font-display text-xl font-semibold leading-none sm:text-2xl">{brand.yearsExperience}</p>
+                  <p className="mt-0.5 text-[0.5rem] font-bold uppercase tracking-[0.14em]">Years</p>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Showcase frame — AI video / design thumbnails, one at a time */}
-        <div className="order-3 mx-auto w-full max-w-md lg:col-span-5 lg:col-start-8 lg:mr-0 lg:max-w-[25rem]">
-          <HeroShowcase />
+            {/* Showcase card: below the video on phones, floating over the frame on desktop */}
+            <div className="float-soft relative mx-auto mt-14 w-[88%] [--float-rot:-2deg] lg:absolute lg:-left-28 lg:top-[12%] lg:mt-0 lg:w-52 lg:[--float-rot:-4deg]">
+              <HeroShowcase />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -131,6 +172,8 @@ export function Hero() {
           ))}
         </dl>
       </div>
+
+      <ToolMarquee />
     </section>
   );
 }

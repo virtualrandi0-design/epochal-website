@@ -50,7 +50,7 @@ function Stars({ rating = 5, className }: { rating?: number; className?: string 
 
 function ReviewCard({ review, now }: { review: Review; now: number | null }) {
   return (
-    <figure className="flex h-full flex-col rounded-[var(--radius-lg)] border border-border bg-card p-5 shadow-soft">
+    <figure className="card-paper flex h-full flex-col p-5">
       <Stars rating={review.rating} />
       <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-foreground">“{review.text}”</blockquote>
       <figcaption className="mt-4 flex items-end justify-between gap-3 border-t border-border pt-3">
@@ -80,7 +80,7 @@ export function Reviews() {
           eyebrow="Client Reviews"
           title={
             <>
-              What clients say on <em className="text-primary">Fiverr.</em>
+              What clients say on <em className="text-gradient">Fiverr.</em>
             </>
           }
         />
@@ -97,7 +97,7 @@ export function Reviews() {
             </span>
             <span>
               <Stars rating={5} />
-              <span className="mt-1 block font-semibold text-foreground transition-colors group-hover:text-primary">
+              <span className="mt-1 block font-semibold text-foreground transition-colors group-hover:text-cyan">
                 Rated {fiverr.rating} on Fiverr
               </span>
             </span>
@@ -107,7 +107,7 @@ export function Reviews() {
 
         {/* Phones: swipeable row that snaps card by card. Tablet: 2 columns. Desktop: 3 columns. */}
         <Reveal className="mt-10">
-          <div className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-3 sm:-mx-8 sm:scroll-px-8 sm:px-8 md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
+          <div className="-mx-5 -my-2 py-2 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-3 sm:-mx-8 sm:scroll-px-8 sm:px-8 md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
             {visible.map((r, i) => (
               <div key={`${r.name}-${r.date}-${i}`} className="w-[82%] shrink-0 snap-start sm:w-[60%] md:w-auto">
                 <ReviewCard review={r} now={now} />

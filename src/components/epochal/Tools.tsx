@@ -6,14 +6,14 @@ const groups = ["Automation & AI", "Video"] as const;
 
 export function Tools() {
   return (
-    <section id="tools" className="grain bg-cream-deep py-24 sm:py-32">
+    <section id="tools" className="grain bg-surface py-24 sm:py-32">
       <div className="container-site">
         <SectionHeading
           index="05"
           eyebrow="Tools & Technologies"
           title={
             <>
-              The platforms behind <em className="text-primary">every build.</em>
+              The platforms behind <em className="text-gradient">every build.</em>
             </>
           }
         />

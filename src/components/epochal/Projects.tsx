@@ -34,17 +34,17 @@ function ProjectMedia({ project }: { project: Project }) {
           alt={project.title}
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+          className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.06]"
         />
       ) : (
         <div
           className={cn(
             "grain flex h-full w-full flex-col items-center justify-center gap-3",
-            isVideo ? "bg-placeholder-ink text-ink-muted" : "bg-placeholder-blue text-primary",
+            isVideo ? "bg-placeholder-ink text-ink-muted" : "bg-placeholder-blue text-cyan",
           )}
         >
           {isVideo ? (
-            <span className="grid h-16 w-16 place-items-center rounded-full border border-ink-border">
+            <span className="pulse-ring grid h-16 w-16 place-items-center rounded-full border border-ink-border">
               <Play className="ml-1 h-6 w-6 text-orange" />
             </span>
           ) : (
@@ -65,7 +65,7 @@ function ProjectMedia({ project }: { project: Project }) {
           aria-label={`Play ${project.title}`}
           className="absolute inset-0 grid place-items-center"
         >
-          <span className="grid h-16 w-16 place-items-center rounded-full bg-orange text-orange-foreground transition-transform hover:scale-105">
+          <span className="pulse-ring grid h-16 w-16 place-items-center rounded-full bg-orange text-orange-foreground transition-transform hover:scale-105">
             <Play className="ml-1 h-6 w-6 fill-current" />
           </span>
         </button>
@@ -80,7 +80,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
   const content = (
     <>
-      <div className="relative aspect-[16/10] overflow-hidden border-b border-border">
+      <div className="relative aspect-[16/10] overflow-hidden rounded-t-[calc(var(--radius-xl)-1px)] border-b border-border">
         <ProjectMedia project={project} />
       </div>
       <div className="flex flex-1 flex-col p-7">
@@ -88,7 +88,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <span
             className={cn(
               "rounded-full px-3 py-1 text-xs font-semibold",
-              project.category === "AI Video" ? "bg-orange-soft text-foreground" : "bg-primary-soft text-primary",
+              project.category === "AI Video" ? "bg-orange-soft text-orange" : "bg-primary-soft text-cyan",
             )}
           >
             {project.category}
@@ -108,14 +108,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         )}
         <span className="mt-auto pt-6">
           {gallery ? (
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline">
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-cyan group-hover:underline">
               View gallery ({gallery.length} images) <ArrowUpRight className="h-4 w-4" />
             </span>
           ) : (
             <a
               href={project.link || "#contact"}
               {...(project.link ? { target: "_blank", rel: "noreferrer" } : {})}
-              className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-cyan hover:underline"
             >
               {project.link ? "View project" : "Want something similar?"} <ArrowUpRight className="h-4 w-4" />
             </a>
@@ -126,7 +126,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   );
 
   return (
-    <Reveal delay={(index % 2) * 80} className="card-paper group flex flex-col overflow-hidden">
+    <Reveal delay={(index % 2) * 80} className="card-paper group flex flex-col">
       {gallery ? (
         <>
           <button
@@ -157,7 +157,7 @@ export function Projects() {
           eyebrow="Selected Projects"
           title={
             <>
-              Selected <em className="text-primary">work.</em>
+              Selected <em className="text-gradient">work.</em>
             </>
           }
           description="A selection of automation systems and AI video productions created under the EPOCHAL name."
@@ -173,7 +173,7 @@ export function Projects() {
                 onClick={() => setActive(f)}
                 className={cn(
                   "rounded-full px-5 py-2 text-sm font-semibold transition-colors",
-                  active === f ? "bg-ink text-ink-foreground" : "text-muted-foreground hover:text-foreground",
+                  active === f ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {f}

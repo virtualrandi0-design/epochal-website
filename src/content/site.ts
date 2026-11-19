@@ -3,6 +3,7 @@
  * Change text, services, projects and tools here; the page updates automatically.
  */
 import portrait from "@/assets/emmanuel-portrait.png.asset.json";
+import heroPoster from "@/assets/hero-1-poster.jpg";
 
 export const brand = {
   name: "Emmanuel",
@@ -16,13 +17,10 @@ export const brand = {
 };
 
 /**
- * Ocean video behind the top section. Upload your file to /public/ocean.mp4.
- * Tip: keep it short (10–20 s), 720p and under ~5 MB so it loads fast on phones.
- * Until the file exists, the ocean poster image is shown instead.
+ * Hero phone video (vertical 9:16). Files live in /public/videos/.
+ * The first entry is shown in the phone frame on the right of the top section.
  */
-export const heroVideo = {
-  src: "/ocean.mp4",
-};
+export const heroVideos: { src: string; poster: string }[] = [{ src: "/videos/hero-1.mp4", poster: heroPoster }];
 
 /** Sorts a Vite glob result by filename and returns the image URLs. */
 function sortedUrls(files: Record<string, string>): string[] {
@@ -32,23 +30,35 @@ function sortedUrls(files: Record<string, string>): string[] {
 }
 
 /**
- * Hero showcase — 5 AI video / design thumbnails shown one at a time.
- * Drop your images into src/assets/showcase/ (e.g. 01.jpg … 05.jpg, 16:10 works best).
- * They are picked up automatically in filename order; until then a gradient placeholder shows.
+ * AI images — put them in src/assets/ai/ with these exact names:
+ * neural.webp, robot.webp, pipeline.webp, studio.webp, chip.webp
+ * Until a file exists, a soft gradient placeholder is shown in its place.
  */
-const showcaseFiles = sortedUrls(
-  import.meta.glob<string>("/src/assets/showcase/*.{png,jpg,jpeg,webp,avif}", { eager: true, import: "default" }),
-);
+const aiFiles = import.meta.glob<string>("/src/assets/ai/*.{webp,png,jpg,jpeg,avif}", { eager: true, import: "default" });
+function aiImage(name: string): string | undefined {
+  const key = Object.keys(aiFiles).find((k) => k.split("/").pop()?.replace(/\.[^.]+$/, "") === name);
+  return key ? aiFiles[key] : undefined;
+}
 
-export type ShowcaseItem = { title: string; image?: string | undefined };
+export type ShowcaseItem = { title: string; file: string; image?: string | undefined };
 
+/** Hero showcase card — one image at a time, changing every 5 seconds. */
 export const showcase: ShowcaseItem[] = [
-  { title: "Cinematic AI film" },
-  { title: "AI product commercial" },
-  { title: "AI UGC video" },
-  { title: "Brand visual design" },
-  { title: "Social media creative" },
-].map((item, i) => ({ ...item, image: showcaseFiles[i] }));
+  { title: "Neural intelligence", file: "neural" },
+  { title: "AI agents", file: "robot" },
+  { title: "Automation pipelines", file: "pipeline" },
+  { title: "AI video studio", file: "studio" },
+  { title: "Intelligent systems", file: "chip" },
+].map((item) => ({ ...item, image: aiImage(item.file) }));
+
+/** Faint background images behind the Automation and Video section headers. */
+export const sectionBackdrops = {
+  automation: aiImage("pipeline"),
+  video: aiImage("studio"),
+};
+
+/** Tools that scroll slowly in the strip under the top section. */
+export const marqueeTools = ["Make.com", "n8n", "OpenAI", "Kling", "Runway", "CapCut", "Printify"];
 
 /** About section text — each string is one paragraph. */
 export const about = {

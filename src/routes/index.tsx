@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/epochal/Navbar";
+import { ScrollProgress } from "@/components/epochal/ScrollProgress";
 import { Hero } from "@/components/epochal/Hero";
 import { About } from "@/components/epochal/About";
 import { AutomationServices, VideoServices } from "@/components/epochal/Services";
@@ -32,6 +33,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <>
+      <ScrollProgress />
       <Navbar />
       <main>
         <Hero />

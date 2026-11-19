@@ -33,7 +33,7 @@ export function Navbar() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300",
-        scrolled || open ? "border-border bg-background/85 backdrop-blur-md" : "border-transparent bg-transparent",
+        scrolled || open ? "border-border bg-background/80 backdrop-blur-xl" : "border-border/50 bg-background/40 backdrop-blur-md",
       )}
     >
       <nav className="container-site flex h-18 items-center justify-between">
@@ -45,7 +45,7 @@ export function Navbar() {
         <ul className="hidden items-center gap-9 lg:flex">
           {navLinks.map((l) => (
             <li key={l.href}>
-              <a href={l.href} className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
+              <a href={l.href} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
                 {l.label}
               </a>
             </li>

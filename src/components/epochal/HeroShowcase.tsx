@@ -5,14 +5,8 @@ import { cn } from "@/lib/utils";
 
 const INTERVAL_MS = 5000;
 
-/** Gradient placeholders used until real images are added to src/assets/showcase/. */
-const tones = [
-  { bg: "bg-showcase-1", fg: "text-ink-foreground" },
-  { bg: "bg-showcase-2", fg: "text-ink" },
-  { bg: "bg-showcase-3", fg: "text-ink-foreground" },
-  { bg: "bg-showcase-4", fg: "text-primary" },
-  { bg: "bg-showcase-5", fg: "text-ink" },
-];
+/** Gradient placeholders used until real images are added to src/assets/ai/. */
+const tones = ["bg-showcase-1", "bg-showcase-2", "bg-showcase-3", "bg-showcase-4", "bg-showcase-5"];
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -54,7 +48,7 @@ export function HeroShowcase() {
 
   return (
     <figure
-      className="rounded-[var(--radius-xl)] border border-border-strong bg-card p-2 shadow-soft"
+      className="rounded-2xl border border-primary/40 bg-card/90 p-1.5 shadow-glow"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
@@ -62,9 +56,9 @@ export function HeroShowcase() {
       aria-roledescription="carousel"
       aria-label="AI video and design showcase"
     >
-      <div className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius-lg)] bg-ink">
+      <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-ink">
         {showcase.map((item, i) => {
-          const tone = tones[i % tones.length] ?? tones[0]!;
+          const tone = tones[i % tones.length];
           return (
             <div
               key={item.title + i}
@@ -87,9 +81,9 @@ export function HeroShowcase() {
                   />
                 )
               ) : (
-                <div className={cn("grain flex h-full w-full flex-col items-center justify-center gap-3", tone.bg, tone.fg)}>
-                  {i % 2 === 0 ? <Play className="h-7 w-7" /> : <Sparkles className="h-7 w-7" />}
-                  <span className="eyebrow text-[0.62rem] opacity-80">Showcase placeholder</span>
+                <div className={cn("flex h-full w-full flex-col items-center justify-center gap-2 text-foreground", tone)}>
+                  {i % 2 === 0 ? <Play className="h-6 w-6" /> : <Sparkles className="h-6 w-6" />}
+                  <span className="eyebrow text-[0.55rem] opacity-80">Image placeholder</span>
                 </div>
               )}
             </div>
@@ -97,10 +91,10 @@ export function HeroShowcase() {
         })}
       </div>
 
-      <figcaption className="flex items-center justify-between gap-4 px-2 pb-1 pt-3">
+      <figcaption className="flex items-center justify-between gap-2 px-1.5 pb-0.5 pt-2">
         <span className="min-w-0">
-          <span className="eyebrow block text-[0.62rem] text-orange">Showcase</span>
-          <span className="block truncate font-display text-lg leading-tight" aria-live="polite">
+          <span className="eyebrow block text-[0.55rem] text-orange">Showcase</span>
+          <span className="block truncate font-display text-sm leading-tight" aria-live="polite">
             {current?.title}
           </span>
         </span>
@@ -112,12 +106,12 @@ export function HeroShowcase() {
               onClick={() => setActive(i)}
               aria-label={`Show ${item.title}`}
               aria-current={i === active}
-              className="grid h-6 place-items-center px-1"
+              className="grid h-6 place-items-center px-0.5"
             >
               <span
                 className={cn(
-                  "block h-2 rounded-full transition-all duration-300",
-                  i === active ? "w-5 bg-primary" : "w-2 bg-border-strong hover:bg-muted-foreground",
+                  "block h-1.5 w-1.5 rounded-full transition-transform duration-300",
+                  i === active ? "scale-125 bg-cyan" : "bg-border-strong hover:bg-muted-foreground",
                 )}
               />
             </button>

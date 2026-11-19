@@ -1,5 +1,5 @@
 import { Bot, Clapperboard, PhoneCall, Share2, ShoppingBag, Smartphone, Workflow, type LucideIcon } from "lucide-react";
-import { services, type ServiceIcon } from "@/content/site";
+import { sectionBackdrops, services, type ServiceIcon } from "@/content/site";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 import { cn } from "@/lib/utils";
@@ -14,18 +14,30 @@ const icons: Record<ServiceIcon, LucideIcon> = {
   ugc: Smartphone,
 };
 
-/** AI Automation services on paper. */
+/** Faint AI image behind a section header, under a dark overlay that fades into the section. */
+function SectionBackdrop({ src }: { src: string | undefined }) {
+  if (!src) return null;
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[30rem] overflow-hidden">
+      <img src={src} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover opacity-15" />
+      <div className="absolute inset-0 bg-backdrop-fade" />
+    </div>
+  );
+}
+
+/** AI Automation services. */
 export function AutomationServices() {
   const items = services.filter((s) => s.category === "Automation");
   return (
-    <section id="automation" className="grain bg-cream-deep py-24 sm:py-32">
+    <section id="automation" className="relative isolate bg-surface py-24 sm:py-32">
+      <SectionBackdrop src={sectionBackdrops.automation} />
       <div className="container-site">
         <SectionHeading
           index="02"
           eyebrow="AI Automation Services"
           title={
             <>
-              Systems that run your business <em className="text-primary">while you grow it.</em>
+              Systems that run your business <em className="text-gradient">while you grow it.</em>
             </>
           }
           description="Automations and AI agents that answer, organise, follow up and publish — so your team can focus on the work that matters."
@@ -36,7 +48,7 @@ export function AutomationServices() {
             return (
               <Reveal key={s.title} delay={i * 70} className="card-paper flex flex-col p-7">
                 <div className="flex items-center justify-between">
-                  <span className="grid h-12 w-12 place-items-center rounded-full bg-primary-soft text-primary">
+                  <span className="grid h-12 w-12 place-items-center rounded-full bg-primary-soft text-cyan">
                     <Icon className="h-5 w-5" />
                   </span>
                   <span className="eyebrow text-muted-foreground">0{i + 1}</span>
@@ -52,11 +64,12 @@ export function AutomationServices() {
   );
 }
 
-/** AI Video Production services on ink. */
+/** AI Video Production services. */
 export function VideoServices() {
   const items = services.filter((s) => s.category === "Video");
   return (
-    <section id="video" className="bg-ink-glow py-24 text-ink-foreground sm:py-32">
+    <section id="video" className="relative isolate bg-ink-glow py-24 text-ink-foreground sm:py-32">
+      <SectionBackdrop src={sectionBackdrops.video} />
       <div className="container-site">
         <SectionHeading
           tone="dark"
@@ -64,7 +77,7 @@ export function VideoServices() {
           eyebrow="AI Video Production"
           title={
             <>
-              Visuals that make people <em className="text-orange">stop scrolling.</em>
+              Visuals that make people <em className="text-gradient">stop scrolling.</em>
             </>
           }
           description="Professional AI video production for brands that want to look premium — from cinematic stories to product films and creator-style ads."
@@ -77,7 +90,7 @@ export function VideoServices() {
                 key={s.title}
                 delay={i * 70}
                 className={cn(
-                  "group flex flex-col rounded-[var(--radius-xl)] border border-ink-border bg-ink-foreground/[0.03] p-8 transition-colors hover:border-orange/50",
+                  "card-paper group flex flex-col p-8",
                 )}
               >
                 <div className="flex items-center justify-between">
