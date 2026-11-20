@@ -1,5 +1,5 @@
-import { useEffect, useRef, type CSSProperties } from "react";
-import { ArrowDownRight, ArrowRight } from "lucide-react";
+import { useState, type CSSProperties } from "react";
+import { ArrowDownRight, ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FiverrButton } from "./FiverrButton";
 import { HeroShowcase } from "./HeroShowcase";
@@ -21,46 +21,52 @@ function Words({ text, start = 0, className }: { text: string; start?: number; c
   );
 }
 
-/** Vertical phone video: muted, loops, and plays only while it is on screen. */
+/** Adds autoplay parameters to YouTube embed links; other links (e.g. Google Drive previews) are used as-is. */
+function playUrl(url: string): string {
+  if (!/youtube\.com\/embed|youtu\.be\//.test(url)) return url;
+  return `${url}${url.includes("?") ? "&" : "?"}autoplay=1&playsinline=1&rel=0&modestbranding=1`;
+}
+
+/** Vertical phone frame: shows the poster, and loads the video only once the visitor clicks play. */
 function PhoneVideo() {
-  const ref = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
   const video = heroVideos[0];
 
-  useEffect(() => {
-    const v = ref.current;
-    if (!v) return;
-    // React does not write `muted` into server HTML; set it so mobile browsers allow playback.
-    v.muted = true;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) v.play().catch(() => {});
-        else v.pause();
-      },
-      { threshold: 0.25 },
-    );
-    observer.observe(v);
-    return () => observer.disconnect();
-  }, []);
-
   if (!video) return null;
+
   return (
     <div className="relative aspect-[9/16] overflow-hidden rounded-[2.5rem] border border-primary/60 shadow-glow">
-      <video
-        ref={ref}
-        className="hero-video h-full w-full object-contain"
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        poster={video.poster}
-        width={720}
-        height={1280}
-        disablePictureInPicture
-        aria-label="EPOCHAL showreel"
-      >
-        <source src={video.src} type="video/mp4" />
-      </video>
+      {playing ? (
+        <iframe
+          className="absolute inset-0 h-full w-full border-0"
+          src={playUrl(video.embedUrl)}
+          title="EPOCHAL showreel"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+        />
+      ) : (
+        <>
+          <img
+            src={video.poster}
+            alt=""
+            width={720}
+            height={1280}
+            decoding="async"
+            className="h-full w-full object-cover"
+          />
+          <button
+            type="button"
+            onClick={() => setPlaying(true)}
+            aria-label="Play the EPOCHAL showreel"
+            className="absolute left-1/2 top-1/2 grid h-20 w-20 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full"
+          >
+            <span className="play-btn-ring absolute inset-0 rounded-full" aria-hidden="true" />
+            <span className="play-btn-disc relative grid h-16 w-16 place-items-center rounded-full bg-primary text-primary-foreground">
+              <Play className="h-6 w-6 translate-x-0.5 fill-current" />
+            </span>
+          </button>
+        </>
+      )}
     </div>
   );
 }

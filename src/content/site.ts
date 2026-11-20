@@ -3,7 +3,7 @@
  * Change text, services, projects and tools here; the page updates automatically.
  */
 import portrait from "@/assets/emmanuel-portrait.png.asset.json";
-import heroPoster from "@/assets/hero-1-poster.jpg";
+import heroPoster from "@/assets/hero-c-logo.jpg.asset.json";
 
 export const brand = {
   name: "Emmanuel",
@@ -17,10 +17,16 @@ export const brand = {
 };
 
 /**
- * Hero phone video (vertical 9:16). Files live in /public/videos/.
+ * Hero phone video (vertical 9:16). The iframe is only loaded when the visitor clicks play,
+ * so the page stays fast; `poster` is the still image shown until then.
  * The first entry is shown in the phone frame on the right of the top section.
  */
-export const heroVideos: { src: string; poster: string }[] = [{ src: "/videos/hero-1.mp4", poster: heroPoster }];
+export const heroVideos: { embedUrl: string; poster: string }[] = [
+  {
+    embedUrl: "https://drive.google.com/file/d/1c4m6V18SyRWwDxP-ks2HcIEMMo5pG40B/preview",
+    poster: heroPoster.url,
+  },
+];
 
 /** Sorts a Vite glob result by filename and returns the image URLs. */
 function sortedUrls(files: Record<string, string>): string[] {

@@ -448,6 +448,34 @@
   mix-blend-mode: var(--hero-video-blend, screen);
 }
 
+/* ---------- Hero play button (poster shown until the visitor clicks) ---------- */
+
+/* Soft halo that breathes out from behind the disc */
+.play-btn-ring {
+  background: var(--color-primary);
+  opacity: 0.5;
+  animation: play-pulse 2.6s ease-out infinite;
+}
+@keyframes play-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  70%,
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Blue disc: blue glow plus a soft dark drop shadow so it reads on any poster */
+.play-btn-disc {
+  box-shadow:
+    0 0 0 8px oklch(0.585 0.226 265.8 / 0.18),
+    0 0 44px oklch(0.585 0.226 265.8 / 0.55),
+    0 18px 40px -18px oklch(0 0 0 / 0.8);
+}
+
 /* ---------- Scroll reveal (subtle) ---------- */
 
 .reveal {
@@ -484,10 +512,12 @@
   .float-soft,
   .pulse-soft,
   .pulse-ring::after,
+  .play-btn-ring,
   .hero-glow {
     animation: none !important;
   }
   .pulse-ring::after { opacity: 0; }
+  .play-btn-ring { opacity: 0; }
   .marquee-track {
     animation: none !important;
     width: auto;
