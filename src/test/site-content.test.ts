@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { about, brand, contact, fiverr, reviews, services, showcase, tools, projects } from "@/content/site";
+import { about, brand, contact, fiverr, reviews, services, showcase, heroVideos, tools, projects } from "@/content/site";
 
 describe("EPOCHAL site content", () => {
   it("states 3 years of experience", () => {
@@ -43,8 +43,21 @@ describe("EPOCHAL site content", () => {
     expect(names.slice(0, 3)).toEqual(["01-workflow.png", "02-products.png", "03-white-tee.png"]);
   });
 
-  it("has 5 hero showcase slides", () => {
-    expect(showcase).toHaveLength(5);
+  it("fills the hero showcase with the 5 attached images in order", () => {
+    const names = showcase.map((s) => s.image.split("/").pop()?.split("?")[0]);
+    expect(names).toEqual([
+      "01-ai-businessman.webp", "02-cinema-studio.webp", "03-n8n-dashboard.webp", "04-ai-robot.webp", "05-neural-network.webp",
+    ]);
+  });
+
+  it("plays the hero video from /videos/hero-1.mp4", () => {
+    expect(heroVideos[0]?.src).toBe("/videos/hero-1.mp4");
+  });
+
+  it("links the AI Video Showcase card to the Drive video", () => {
+    const card = projects.find((p) => p.category === "AI Video");
+    expect(card?.title).toBe("AI Video Showcase");
+    expect(card?.videoEmbedUrl).toBe("https://drive.google.com/file/d/1c4m6V18SyRWwDxP-ks2HcIEMMo5pG40B/preview");
   });
 
   it("links to the requested Fiverr profile with a 5.0 rating", () => {

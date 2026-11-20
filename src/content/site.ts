@@ -4,6 +4,11 @@
  */
 import portrait from "@/assets/emmanuel-portrait.png.asset.json";
 import heroPoster from "@/assets/hero-c-logo.jpg.asset.json";
+import showcaseBusinessman from "@/assets/ai/01-ai-businessman.webp";
+import showcaseCinema from "@/assets/ai/02-cinema-studio.webp";
+import showcaseN8n from "@/assets/ai/03-n8n-dashboard.webp";
+import showcaseRobot from "@/assets/ai/04-ai-robot.webp";
+import showcaseNeural from "@/assets/ai/05-neural-network.webp";
 
 export const brand = {
   name: "Emmanuel",
@@ -17,13 +22,13 @@ export const brand = {
 };
 
 /**
- * Hero phone video (vertical 9:16). The iframe is only loaded when the visitor clicks play,
- * so the page stays fast; `poster` is the still image shown until then.
+ * Hero phone video (vertical 9:16). Muted, loops and plays only while on screen;
+ * `poster` is the still image shown before it starts.
  * The first entry is shown in the phone frame on the right of the top section.
  */
-export const heroVideos: { embedUrl: string; poster: string }[] = [
+export const heroVideos: { src: string; poster: string }[] = [
   {
-    embedUrl: "https://drive.google.com/file/d/1c4m6V18SyRWwDxP-ks2HcIEMMo5pG40B/preview",
+    src: "/videos/hero-1.mp4",
     poster: heroPoster.url,
   },
 ];
@@ -46,16 +51,19 @@ function aiImage(name: string): string | undefined {
   return key ? aiFiles[key] : undefined;
 }
 
-export type ShowcaseItem = { title: string; file: string; image?: string | undefined };
+export type ShowcaseItem = { title: string; image: string };
 
-/** Hero showcase card — one image at a time, changing every 5 seconds. */
+/**
+ * Hero showcase card — one image at a time, changing every 5 seconds.
+ * Add, remove or reorder images here; the dots follow automatically.
+ */
 export const showcase: ShowcaseItem[] = [
-  { title: "Neural intelligence", file: "neural" },
-  { title: "AI agents", file: "robot" },
-  { title: "Automation pipelines", file: "pipeline" },
-  { title: "AI video studio", file: "studio" },
-  { title: "Intelligent systems", file: "chip" },
-].map((item) => ({ ...item, image: aiImage(item.file) }));
+  { title: "AI character portrait", image: showcaseBusinessman },
+  { title: "AI video studio", image: showcaseCinema },
+  { title: "n8n automation workflow", image: showcaseN8n },
+  { title: "Friendly AI assistant", image: showcaseRobot },
+  { title: "Neural network", image: showcaseNeural },
+];
 
 /** Faint background images behind the Automation and Video section headers. */
 export const sectionBackdrops = {
@@ -266,7 +274,7 @@ export type Project = {
   platforms: string[];
   /** Optional date label, e.g. "July 2026". */
   date?: string;
-  /** Optional YouTube / Vimeo embed URL, e.g. https://www.youtube.com/embed/VIDEO_ID */
+  /** Optional video embed URL (YouTube, Vimeo or Google Drive preview). Loads only after the play button is clicked. */
   videoEmbedUrl?: string;
   /** Optional link to a live project, case study or demo */
   link?: string;
@@ -296,9 +304,11 @@ export const projects: Project[] = [
     tags: [],
   },
   {
-    title: "Cinematic Video Title",
-    description: "Placeholder — describe the story, the visual style and where the final video was published.",
+    title: "AI Video Showcase",
+    description: "A showcase of my AI video work.",
     category: "AI Video",
+    image: showcaseBusinessman,
+    videoEmbedUrl: "https://drive.google.com/file/d/1c4m6V18SyRWwDxP-ks2HcIEMMo5pG40B/preview",
     platforms: ["Veo", "Runway"],
     tags: [],
   },

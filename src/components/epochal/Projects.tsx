@@ -17,9 +17,9 @@ function ProjectMedia({ project }: { project: Project }) {
   if (playing && project.videoEmbedUrl) {
     return (
       <iframe
-        src={`${project.videoEmbedUrl}${project.videoEmbedUrl.includes("?") ? "&" : "?"}autoplay=1`}
-        title={project.title}
-        className="absolute inset-0 h-full w-full"
+        src={project.videoEmbedUrl}
+        title="AI video"
+        className="absolute inset-0 h-full w-full border-0"
         allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
         allowFullScreen
       />

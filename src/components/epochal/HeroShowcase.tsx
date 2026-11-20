@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
-import { Play, Sparkles } from "lucide-react";
 import { showcase } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 const INTERVAL_MS = 5000;
-
-/** Gradient placeholders used until real images are added to src/assets/ai/. */
-const tones = ["bg-showcase-1", "bg-showcase-2", "bg-showcase-3", "bg-showcase-4", "bg-showcase-5"];
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -57,38 +53,28 @@ export function HeroShowcase() {
       aria-label="AI video and design showcase"
     >
       <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-ink">
-        {showcase.map((item, i) => {
-          const tone = tones[i % tones.length];
-          return (
-            <div
-              key={item.title + i}
-              aria-hidden={i !== active}
-              className={cn(
-                "absolute inset-0 transition-opacity duration-1000 ease-in-out motion-reduce:transition-none",
-                i === active ? "opacity-100" : "opacity-0",
-              )}
-            >
-              {item.image ? (
-                seen.has(i) && (
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                    width={800}
-                    height={500}
-                    className="h-full w-full object-cover"
-                  />
-                )
-              ) : (
-                <div className={cn("flex h-full w-full flex-col items-center justify-center gap-2 text-foreground", tone)}>
-                  {i % 2 === 0 ? <Play className="h-6 w-6" /> : <Sparkles className="h-6 w-6" />}
-                  <span className="eyebrow text-[0.55rem] opacity-80">Image placeholder</span>
-                </div>
-              )}
-            </div>
-          );
-        })}
+        {showcase.map((item, i) => (
+          <div
+            key={item.title + i}
+            aria-hidden={i !== active}
+            className={cn(
+              "absolute inset-0 transition-opacity duration-1000 ease-in-out motion-reduce:transition-none",
+              i === active ? "opacity-100" : "opacity-0",
+            )}
+          >
+            {seen.has(i) && (
+              <img
+                src={item.image}
+                alt={item.title}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding="async"
+                width={800}
+                height={500}
+                className="h-full w-full object-cover"
+              />
+            )}
+          </div>
+        ))}
       </div>
 
       <figcaption className="flex items-center justify-between gap-2 px-1.5 pb-0.5 pt-2">
@@ -98,25 +84,29 @@ export function HeroShowcase() {
             {current?.title}
           </span>
         </span>
-        <span className="flex shrink-0 items-center">
-          {showcase.map((item, i) => (
-            <button
-              key={item.title + i}
-              type="button"
-              onClick={() => setActive(i)}
-              aria-label={`Show ${item.title}`}
-              aria-current={i === active}
-              className="grid h-6 place-items-center px-0.5"
-            >
-              <span
-                className={cn(
-                  "block h-1.5 w-1.5 rounded-full transition-transform duration-300",
-                  i === active ? "scale-125 bg-cyan" : "bg-border-strong hover:bg-muted-foreground",
-                )}
-              />
-            </button>
-          ))}
-        </span>
+        {count > 1 && (
+          <span className="flex shrink-0 items-center">
+            {showcase.map((item, i) => (
+              <button
+                key={item.title + i}
+                type="button"
+                onClick={() => setActive(i)}
+                aria-label={`Show ${item.title}`}
+                aria-current={i === active}
+                className="grid h-6 place-items-center px-0.5"
+              >
+                <span
+                  className={cn(
+                    "block h-1.5 w-1.5 rounded-full transition-transform duration-300",
+                    i === active
+                      ? "scale-125 bg-cyan"
+                      : "bg-border-strong hover:bg-muted-foreground",
+                  )}
+                />
+              </button>
+            ))}
+          </span>
+        )}
       </figcaption>
     </figure>
   );
