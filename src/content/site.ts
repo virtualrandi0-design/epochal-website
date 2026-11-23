@@ -9,6 +9,7 @@ import showcaseCinema from "@/assets/ai/02-cinema-studio.webp";
 import showcaseN8n from "@/assets/ai/03-n8n-dashboard.webp";
 import showcaseRobot from "@/assets/ai/04-ai-robot.webp";
 import showcaseNeural from "@/assets/ai/05-neural-network.webp";
+import fashionAdThumbnail from "@/assets/projects/fashion-ad-thumbnail.jpg";
 
 export const brand = {
   name: "Emmanuel",
@@ -276,6 +277,8 @@ export type Project = {
   date?: string;
   /** Optional video embed URL (YouTube, Vimeo or Google Drive preview). Loads only after the play button is clicked. */
   videoEmbedUrl?: string;
+  /** Optional local video file (e.g. "/videos/fashion-ad.mp4"). Plays inline after the play button is clicked. */
+  videoSrc?: string;
   /** Optional link to a live project, case study or demo */
   link?: string;
   tags: string[];
@@ -304,13 +307,14 @@ export const projects: Project[] = [
     tags: [],
   },
   {
-    title: "AI Video Showcase",
-    description: "A showcase of my AI video work.",
+    title: "AI Fashion Ad: Clothing Image to Cinematic Video",
+    description:
+      "A cinematic fashion ad made from a single clothing image. It moves from close-ups of the fabric and sneakers to a model walking through the city in the finished outfit.",
     category: "AI Video",
-    image: showcaseBusinessman,
-    videoEmbedUrl: "https://drive.google.com/file/d/1c4m6V18SyRWwDxP-ks2HcIEMMo5pG40B/preview",
-    platforms: ["Veo", "Runway"],
-    tags: [],
+    image: fashionAdThumbnail,
+    videoSrc: "/videos/fashion-ad.mp4",
+    platforms: ["Kling", "Veo", "CapCut"],
+    tags: ["Fashion Ad", "Image to Video", "Product Commercial"],
   },
 ];
 

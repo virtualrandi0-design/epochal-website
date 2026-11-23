@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Images, ImagePlus, Play } from "lucide-react";
 import { projects, type Project } from "@/content/site";
 import { Lightbox } from "./Lightbox";
@@ -11,8 +11,37 @@ type Filter = (typeof filters)[number];
 
 function ProjectMedia({ project }: { project: Project }) {
   const [playing, setPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const isVideo = project.category === "AI Video";
   const cover = project.images?.[0] ?? project.image;
+
+  // Pause the inline video when it scrolls off screen.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry && !entry.isIntersecting) video.pause();
+      },
+      { threshold: 0.2 },
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [playing]);
+
+  if (playing && project.videoSrc) {
+    return (
+      <video
+        ref={videoRef}
+        src={project.videoSrc}
+        controls
+        autoPlay
+        playsInline
+        preload="none"
+        className="h-full w-full bg-background object-contain"
+      />
+    );
+  }
 
   if (playing && project.videoEmbedUrl) {
     return (
@@ -58,7 +87,7 @@ function ProjectMedia({ project }: { project: Project }) {
           <Images className="h-3.5 w-3.5" />+{project.images.length - 1}
         </span>
       )}
-      {project.videoEmbedUrl && (
+      {(project.videoEmbedUrl || project.videoSrc) && (
         <button
           type="button"
           onClick={() => setPlaying(true)}

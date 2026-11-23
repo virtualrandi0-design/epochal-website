@@ -54,10 +54,13 @@ describe("EPOCHAL site content", () => {
     expect(heroVideos[0]?.src).toBe("/videos/hero-1.mp4");
   });
 
-  it("links the AI Video Showcase card to the Drive video", () => {
+  it("lists the AI fashion ad card with its local video, platforms and tags", () => {
     const card = projects.find((p) => p.category === "AI Video");
-    expect(card?.title).toBe("AI Video Showcase");
-    expect(card?.videoEmbedUrl).toBe("https://drive.google.com/file/d/1c4m6V18SyRWwDxP-ks2HcIEMMo5pG40B/preview");
+    expect(card?.title).toBe("AI Fashion Ad: Clothing Image to Cinematic Video");
+    expect(card?.videoSrc).toBe("/videos/fashion-ad.mp4");
+    expect(card?.platforms).toEqual(["Kling", "Veo", "CapCut"]);
+    expect(card?.tags).toEqual(["Fashion Ad", "Image to Video", "Product Commercial"]);
+    expect(card?.image).toBeTruthy();
   });
 
   it("links to the requested Fiverr profile with a 5.0 rating", () => {
