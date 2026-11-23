@@ -44,7 +44,7 @@ export function HeroShowcase() {
 
   return (
     <figure
-      className="rounded-2xl border border-primary/40 bg-card/90 p-1.5 shadow-glow"
+      className="overflow-hidden rounded-2xl border border-primary/40 bg-card/90 shadow-glow"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
@@ -52,7 +52,7 @@ export function HeroShowcase() {
       aria-roledescription="carousel"
       aria-label="AI video and design showcase"
     >
-      <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-ink">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-ink">
         {showcase.map((item, i) => (
           <div
             key={item.title + i}
@@ -77,7 +77,7 @@ export function HeroShowcase() {
         ))}
       </div>
 
-      <figcaption className="flex items-center justify-between gap-2 px-1.5 pb-0.5 pt-2">
+      <figcaption className="flex items-center justify-between gap-2 px-2.5 pb-2 pt-2">
         <span className="min-w-0">
           <span className="eyebrow block text-[0.55rem] text-orange">Showcase</span>
           <span className="block truncate font-display text-sm leading-tight" aria-live="polite">

@@ -85,6 +85,36 @@ export function Hero() {
       </div>
 
       <div className="container-site grid items-center gap-14 pb-16 lg:grid-cols-12 lg:gap-8 lg:pb-24">
+        {/* Mobile visuals: phone video, then photo + showcase side by side (desktop layout below) */}
+        <div className="flex flex-col items-center gap-6 lg:hidden">
+          <div className="w-[70vw] max-w-[280px]">
+            <PhoneVideo />
+          </div>
+          <div className="flex w-full items-center gap-4">
+            <div className="relative h-24 w-24 shrink-0">
+              <div className="h-full w-full rounded-full bg-gradient-brand p-1 shadow-photo">
+                <img
+                  src={brand.portrait}
+                  alt="Emmanuel, founder of EPOCHAL"
+                  width={1091}
+                  height={1442}
+                  decoding="async"
+                  className="aspect-square h-full w-full rounded-full border-2 border-background object-cover object-[50%_18%]"
+                />
+              </div>
+              <div className="pulse-soft absolute -right-1 -top-1 grid h-12 w-12 place-items-center rounded-full border-4 border-background bg-orange text-center text-orange-foreground">
+                <div>
+                  <p className="font-display text-lg font-semibold leading-none">{brand.yearsExperience}</p>
+                  <p className="mt-0.5 text-[0.45rem] font-bold uppercase tracking-[0.14em]">Years</p>
+                </div>
+              </div>
+            </div>
+            <div className="min-w-0 flex-1">
+              <HeroShowcase />
+            </div>
+          </div>
+        </div>
+
         {/* Introduction */}
         <div className="lg:col-span-7">
           <p className="eyebrow inline-flex items-center gap-2.5 rounded-full border border-border-strong bg-card/60 px-4 py-2 text-muted-foreground">
@@ -126,8 +156,8 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Phone frame with the video, profile photo and floating showcase card */}
-        <div className="flex justify-center lg:col-span-5 lg:justify-end">
+        {/* Phone frame with the video, profile photo and floating showcase card (desktop only) */}
+        <div className="hidden justify-center lg:col-span-5 lg:flex lg:justify-end">
           <div className="relative w-[min(78vw,300px,45vh)] min-w-[220px] lg:w-[min(21rem,45vh)]">
             <PhoneVideo />
 
