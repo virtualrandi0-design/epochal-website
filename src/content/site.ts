@@ -337,7 +337,7 @@ export const projects: Project[] = [
     description:
       "A 35-second cinematic concept ad that opens on a night-lit showroom, unveils a luxury SUV on a turntable, and ends with a presenter on location. Created with AI video tools.",
     category: "AI Video",
-    image: maseratiThumb,
+    ...(maseratiThumb ? { image: maseratiThumb } : {}),
     videoSrc: "/videos/maserati-ad.mp4",
     platforms: ["Kling", "Veo", "CapCut"],
     tags: ["Brand Film", "Concept Ad", "Luxury"],
