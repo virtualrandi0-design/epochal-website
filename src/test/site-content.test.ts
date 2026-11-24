@@ -31,7 +31,8 @@ describe("EPOCHAL site content", () => {
   });
 
   it("uses the AI Automation / AI Video project categories", () => {
-    expect(projects.map((p) => p.category)).toEqual(["AI Automation", "AI Video"]);
+    expect(projects.map((p) => p.category)).toEqual(["AI Automation", "AI Video", "AI Video", "AI Automation", "AI Video"]);
+    expect(projects.filter((p) => p.comingSoon).map((p) => p.title)).toEqual(["New Automation Project", "New AI Video Project"]);
   });
 
   it("lists the Printify project with its platforms, date and gallery in order", () => {
@@ -55,7 +56,7 @@ describe("EPOCHAL site content", () => {
   });
 
   it("lists the AI fashion ad card with its local video, platforms and tags", () => {
-    const card = projects.find((p) => p.category === "AI Video");
+    const card = projects.find((p) => p.videoSrc === "/videos/fashion-ad.mp4");
     expect(card?.title).toBe("AI Fashion Ad: Clothing Image to Cinematic Video");
     expect(card?.videoSrc).toBe("/videos/fashion-ad.mp4");
     expect(card?.platforms).toEqual(["Kling", "Veo", "CapCut"]);

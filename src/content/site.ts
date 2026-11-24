@@ -201,11 +201,10 @@ export const contact = {
 };
 
 export const navLinks = [
+  { label: "Work", href: "#projects" },
   { label: "About", href: "#about" },
-  { label: "Automation", href: "#automation" },
-  { label: "Video", href: "#video" },
-  { label: "Projects", href: "#projects" },
-  { label: "Tools", href: "#tools" },
+  { label: "Services", href: "#automation" },
+  { label: "Reviews", href: "#reviews" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -282,7 +281,16 @@ export type Project = {
   /** Optional link to a live project, case study or demo */
   link?: string;
   tags: string[];
+  /** Placeholder card: shows an empty "Project image goes here" box, no click. Remove when the project is ready. */
+  comingSoon?: boolean;
+  /** Two small stat blocks shown on the card. */
+  stats?: { value: string; caption: string }[];
 };
+
+/** Maserati thumbnail — picked up automatically once src/assets/projects/maserati-ad-thumbnail.jpg exists. */
+const maseratiThumb = Object.values(
+  import.meta.glob<string>("/src/assets/projects/maserati-ad-thumbnail.{jpg,jpeg,png,webp}", { eager: true, import: "default" }),
+)[0];
 
 /**
  * Printify gallery — every image in src/assets/projects/printify/ is used, in filename order
@@ -305,6 +313,10 @@ export const projects: Project[] = [
     platforms: ["Make.com", "OpenAI", "Google Drive", "Cloudinary", "Printify"],
     date: "July 2026",
     tags: [],
+    stats: [
+      { value: "Every 2 days", caption: "scheduled run" },
+      { value: "5", caption: "tools connected" },
+    ],
   },
   {
     title: "AI Fashion Ad: Clothing Image to Cinematic Video",
@@ -315,6 +327,40 @@ export const projects: Project[] = [
     videoSrc: "/videos/fashion-ad.mp4",
     platforms: ["Kling", "Veo", "CapCut"],
     tags: ["Fashion Ad", "Image to Video", "Product Commercial"],
+    stats: [
+      { value: "10 sec", caption: "vertical ad" },
+      { value: "1 image", caption: "turned into a full ad" },
+    ],
+  },
+  {
+    title: "AI Brand Film: Luxury Car Showroom Reveal",
+    description:
+      "A 35-second cinematic concept ad that opens on a night-lit showroom, unveils a luxury SUV on a turntable, and ends with a presenter on location. Created with AI video tools.",
+    category: "AI Video",
+    image: maseratiThumb,
+    videoSrc: "/videos/maserati-ad.mp4",
+    platforms: ["Kling", "Veo", "CapCut"],
+    tags: ["Brand Film", "Concept Ad", "Luxury"],
+    stats: [
+      { value: "35 sec", caption: "cinematic film" },
+      { value: "1080p", caption: "16:9 widescreen" },
+    ],
+  },
+  {
+    title: "New Automation Project",
+    description: "Placeholder: project description goes here.",
+    category: "AI Automation",
+    platforms: ["Make.com", "n8n"],
+    tags: [],
+    comingSoon: true,
+  },
+  {
+    title: "New AI Video Project",
+    description: "Placeholder: project description goes here.",
+    category: "AI Video",
+    platforms: ["Kling", "Runway"],
+    tags: [],
+    comingSoon: true,
   },
 ];
 

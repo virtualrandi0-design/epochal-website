@@ -526,3 +526,26 @@
   }
   .marquee-dup { display: none; }
 }
+
+/* Sticky stacking project cards: each card shrinks and dims as the next one slides over it. */
+@keyframes stack-recede {
+  to { transform: scale(0.95); opacity: 0.55; }
+}
+@utility stack-card {
+  @supports (animation-timeline: view()) {
+    animation: stack-recede linear both;
+    animation-timeline: view();
+    animation-range: exit-crossing 0% exit-crossing 60%;
+    transform-origin: 50% 0%;
+  }
+}
+@keyframes media-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@utility media-float {
+  animation: media-float 7s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stack-card, .media-float { animation: none !important; transform: none !important; opacity: 1 !important; }
+}
